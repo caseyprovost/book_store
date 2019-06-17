@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "graphiti_spec_helpers/rspec"
+require 'graphiti_spec_helpers/rspec'
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
@@ -26,4 +26,3 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 end
-
