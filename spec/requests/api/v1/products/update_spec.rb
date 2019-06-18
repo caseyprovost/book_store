@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "products#update", type: :request do
+RSpec.describe 'products#update', type: :request do
   subject(:make_request) do
     jsonapi_put "/api/v1/products/#{product.id}", payload
   end

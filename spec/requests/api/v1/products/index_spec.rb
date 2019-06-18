@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "products#index", type: :request do
+RSpec.describe 'products#index', type: :request do
   let(:params) { {} }
 
   subject(:make_request) do
-    jsonapi_get "/api/v1/products", params: params
+    jsonapi_get '/api/v1/products', params: params
   end
 
   describe 'basic fetch' do

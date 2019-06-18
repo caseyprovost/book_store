@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "products#show", type: :request do
+RSpec.describe 'products#show', type: :request do
   let(:params) { {} }
 
   subject(:make_request) do
