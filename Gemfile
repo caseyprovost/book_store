@@ -17,6 +17,7 @@ gem 'rack-cors'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
+gem 'ahoy_matey'
 gem 'closure_tree'
 gem 'factory_bot_rails'
 gem 'faker'
@@ -26,7 +27,6 @@ gem 'kaminari'
 gem 'responders'
 gem 'strong_migrations'
 gem 'versionist'
-gem 'ahoy_matey'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
@@ -42,6 +42,7 @@ group :development, :test do
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubocop-rspec'
+  gem 'rubocop-standard'
   gem 'spring'
   gem 'spring-commands-rspec'
 end

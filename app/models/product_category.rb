@@ -1,6 +1,6 @@
-class ProductCategory < ApplicationRecord
-  extend FriendlyId
+# frozen_string_literal: true
 
-  friendly_id :name, use: :slugged
-  has_closure_tree
+class ProductCategory < ApplicationRecord
+  belongs_to :product
+  belongs_to :category
 end
