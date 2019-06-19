@@ -25,7 +25,7 @@ RSpec.describe OptionTypeResource, type: :resource do
 
       it 'works' do
         render
-        expect(d.map(&:id)).to eq([option_type2.id])
+        expect(d.map(&:id)).to match_array([option_type2.id])
       end
     end
   end
@@ -56,7 +56,7 @@ RSpec.describe OptionTypeResource, type: :resource do
 
         it 'works' do
           render
-          expect(d.map(&:id)).to eq([
+          expect(d.map(&:id)).to match_array([
             option_type2.id,
             option_type1.id
           ])

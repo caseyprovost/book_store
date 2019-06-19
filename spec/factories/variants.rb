@@ -2,9 +2,8 @@
 
 FactoryBot.define do
   factory :variant do
-    references { '' }
-    price_in_cents { 1 }
-    sku { 'MyString' }
-    position { '' }
+    product
+    price_in_cents { Faker::Number.number(6)  }
+    sku { generate(:sku) }
   end
 end

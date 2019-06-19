@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :product do
-    name { 'MyString' }
-    description { 'MyText' }
+    sequence(:name)   { |n| "Product ##{n} - #{Kernel.rand(9999)}" }
+    description       { Faker::Lorem.paragraph(2) }
   end
 end

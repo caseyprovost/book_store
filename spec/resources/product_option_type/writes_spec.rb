@@ -3,12 +3,29 @@
 require 'rails_helper'
 
 RSpec.describe ProductOptionTypeResource, type: :resource do
+  let(:product) { create(:product) }
+  let(:option_type) { create(:option_type) }
+
   describe 'creating' do
     let(:payload) do
       {
         data: {
           type: 'product_option_types',
-          attributes: attributes_for(:product_option_type)
+          attributes: attributes_for(:product_option_type),
+          relationships: {
+            product: {
+              data: {
+                id: product.id.to_s,
+                type: 'products'
+              }
+            },
+            option_type: {
+              data: {
+                id: option_type.id.to_s,
+                type: 'option_types'
+              }
+            }
+          }
         }
       }
     end

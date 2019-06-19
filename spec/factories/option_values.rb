@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :option_value do
-    name { 'MyString' }
+    sequence(:name) { |n| "Size-#{n}" }
     option_type
   end
 end

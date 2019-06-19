@@ -3,12 +3,29 @@
 require 'rails_helper'
 
 RSpec.describe ProductCategoryResource, type: :resource do
+  let(:product) { create(:product) }
+  let(:category) { create(:category) }
+
   describe 'creating' do
     let(:payload) do
       {
         data: {
           type: 'product_categories',
-          attributes: attributes_for(:product_category)
+          attributes: attributes_for(:product_category),
+          relationships: {
+            product: {
+              data: {
+                id: product.id.to_s,
+                type: 'products'
+              }
+            },
+            category: {
+              data: {
+                id: category.id.to_s,
+                type: 'categories'
+              }
+            }
+          }
         }
       }
     end
