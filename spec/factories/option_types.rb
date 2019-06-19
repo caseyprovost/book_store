@@ -2,7 +2,6 @@
 
 FactoryBot.define do
   factory :option_type do
-    name { 'MyString' }
-    position { 1 }
+    sequence(:name) { |n| "#{Faker::Movies::HarryPotter.spell}-#{n}" }
   end
 end

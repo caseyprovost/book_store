@@ -2,3 +2,9 @@ inherit_gem:
   rubocop-standard:
     - config/default.yml
     - config/rails.yml
+
+AllCops:
+  TargetRubyVersion: 2.6
+
+Standard/RailsControllerRenderLiteral:
+  Enabled: false

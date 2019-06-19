@@ -12,7 +12,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_190_618_232_623) do
+ActiveRecord::Schema.define(version: 2019_06_19_003332) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -22,7 +23,7 @@ ActiveRecord::Schema.define(version: 20_190_618_232_623) do
     t.string 'name'
     t.jsonb 'properties'
     t.datetime 'time'
-    t.index %w[name time], name: 'index_ahoy_events_on_name_and_time'
+    t.index ['name', 'time'], name: 'index_ahoy_events_on_name_and_time'
     t.index ['properties'], name: 'index_ahoy_events_on_properties', opclass: :jsonb_path_ops, using: :gin
     t.index ['user_id'], name: 'index_ahoy_events_on_user_id'
     t.index ['visit_id'], name: 'index_ahoy_events_on_visit_id'
@@ -72,7 +73,7 @@ ActiveRecord::Schema.define(version: 20_190_618_232_623) do
     t.integer 'ancestor_id', null: false
     t.integer 'descendant_id', null: false
     t.integer 'generations', null: false
-    t.index %w[ancestor_id descendant_id generations], name: 'category_anc_desc_idx', unique: true
+    t.index ['ancestor_id', 'descendant_id', 'generations'], name: 'category_anc_desc_idx', unique: true
     t.index ['descendant_id'], name: 'category_desc_idx'
   end
 
@@ -91,6 +92,15 @@ ActiveRecord::Schema.define(version: 20_190_618_232_623) do
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
     t.index ['name'], name: 'index_option_types_on_name', unique: true
+  end
+
+  create_table 'option_values', force: :cascade do |t|
+    t.integer 'position', default: 0, null: false
+    t.string 'name'
+    t.bigint 'option_type_id', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index ['option_type_id'], name: 'index_option_values_on_option_type_id'
   end
 
   create_table 'product_categories', force: :cascade do |t|
@@ -119,15 +129,6 @@ ActiveRecord::Schema.define(version: 20_190_618_232_623) do
     t.index ['name'], name: 'index_products_on_name'
   end
 
-  create_table 'variant_option_type_values', force: :cascade do |t|
-    t.bigint 'variant_id'
-    t.bigint 'option_type_value_id'
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
-    t.index ['option_type_value_id'], name: 'index_variant_option_type_values_on_option_type_value_id'
-    t.index ['variant_id'], name: 'index_variant_option_type_values_on_variant_id'
-  end
-
   create_table 'variants', force: :cascade do |t|
     t.bigint 'product_id'
     t.bigint 'price_in_cents', default: 0, null: false
@@ -140,11 +141,10 @@ ActiveRecord::Schema.define(version: 20_190_618_232_623) do
   end
 
   add_foreign_key 'option_type_values', 'option_types'
+  add_foreign_key 'option_values', 'option_types'
   add_foreign_key 'product_categories', 'categories'
   add_foreign_key 'product_categories', 'products'
   add_foreign_key 'product_option_types', 'option_types'
   add_foreign_key 'product_option_types', 'products'
-  add_foreign_key 'variant_option_type_values', 'option_type_values'
-  add_foreign_key 'variant_option_type_values', 'variants'
   add_foreign_key 'variants', 'products'
 end

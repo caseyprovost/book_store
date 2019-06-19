@@ -9,7 +9,7 @@ RSpec.configure do |config|
 
   # Raise errors during tests by default
   config.before :each do
-    GraphitiErrors.disable!
+    #GraphitiErrors.disable!
   end
 
   # Clean your DB between test runs

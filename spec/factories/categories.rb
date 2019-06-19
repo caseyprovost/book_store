@@ -2,7 +2,6 @@
 
 FactoryBot.define do
   factory :category do
-    name { 'MyString' }
-    slug { 'MyString' }
+    sequence(:name) { |n| "#{Faker::Movies::HarryPotter.house}-#{n}" }
   end
 end

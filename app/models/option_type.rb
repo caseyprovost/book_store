@@ -9,4 +9,6 @@ class OptionType < ApplicationRecord
   has_many :products, through: :product_option_types
 
   default_scope { order(:position) }
+
+  acts_as_list
 end
