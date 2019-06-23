@@ -2,8 +2,9 @@
 
 FactoryBot.define do
   factory :variant do
+    sequence(:name) { |n| "#{Faker::Movies::StarWars.droid}-#{n}" }
     product
-    price_in_cents { Faker::Number.number(6)  }
+    price { Faker::Number.decimal(2)  }
     sku { generate(:sku) }
   end
 end
