@@ -12,36 +12,6 @@ module Api
         option_type = OptionTypeResource.find(params)
         respond_with(option_type)
       end
-
-      def create
-        option_type = OptionTypeResource.build(params)
-
-        if option_type.save
-          render jsonapi: option_type, status: 201
-        else
-          render jsonapi_errors: option_type
-        end
-      end
-
-      def update
-        option_type = OptionTypeResource.find(params)
-
-        if option_type.update_attributes
-          render jsonapi: option_type
-        else
-          render jsonapi_errors: option_type
-        end
-      end
-
-      def destroy
-        option_type = OptionTypeResource.find(params)
-
-        if option_type.destroy
-          render jsonapi: { meta: {} }, status: 200
-        else
-          render jsonapi_errors: option_type
-        end
-      end
     end
   end
 end

@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe ProductResource, type: :resource do
+  include Rails.application.routes.url_helpers
+
   describe 'serialization' do
     let!(:product) { create(:product) }
 
@@ -66,6 +68,30 @@ RSpec.describe ProductResource, type: :resource do
   end
 
   describe 'sideloading' do
-    # ... your tests ...
+    describe 'categories' do
+      let!(:product) { create(:product) }
+      let!(:category) { create(:category) }
+
+      let(:api_response) do
+        {
+          id: category.id,
+          type: 'categories',
+          attributes: { name: category.name }
+        }
+      end
+
+      before do
+        product.categories << category
+        params[:include] = 'categories'
+      end
+
+      it 'returns categories' do
+        render
+        sl = d[0].sideload(:categories)
+        expect(sl.map(&:id)).to eq([category.id])
+        expect(sl.map(&:jsonapi_type).uniq)
+        .to eq(['categories'])
+      end
+    end
   end
 end
