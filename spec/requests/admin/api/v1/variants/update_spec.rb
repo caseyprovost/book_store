@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "variants#update", type: :request do
+RSpec.describe 'variants#update', type: :request do
   subject(:make_request) do
     jsonapi_put "/admin/api/v1/variants/#{variant.id}", payload
   end

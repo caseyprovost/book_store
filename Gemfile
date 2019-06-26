@@ -26,11 +26,11 @@ gem 'faraday'
 gem 'friendly_id'
 gem 'graphiti-rails'
 gem 'kaminari'
+gem 'monetize'
+gem 'money-rails'
 gem 'responders'
 gem 'strong_migrations'
 gem 'versionist'
-gem 'money-rails'
-gem 'monetize'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'

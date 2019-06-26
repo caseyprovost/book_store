@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "variants#destroy", type: :request do
+RSpec.describe 'variants#destroy', type: :request do
   subject(:make_request) do
     jsonapi_delete "/admin/api/v1/variants/#{variant.id}"
   end

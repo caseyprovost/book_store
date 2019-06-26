@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "variants#create", type: :request do
+RSpec.describe 'variants#create', type: :request do
   subject(:make_request) do
-    jsonapi_post "/admin/api/v1/variants", payload
+    jsonapi_post '/admin/api/v1/variants', payload
   end
 
   let(:product) { create(:product) }

@@ -8,7 +8,7 @@ class ProductProperty < ApplicationRecord
 
   acts_as_list scope: :product
 
-  validates :property, presence: true
+  validates :value, presence: true
 
   default_scope { order(:position) }
 end
