@@ -7,5 +7,9 @@ class Variant < ApplicationRecord
   delegate :description, to: :product
 
   acts_as_list scope: :product
-  monetize :price_in_cents, as: 'price'
+
+  monetize :price_in_cents, as: 'price',
+    numericality: {
+      greater_than_or_equal_to: 0
+    }
 end

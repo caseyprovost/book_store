@@ -9,6 +9,8 @@ Rails.application.routes.draw do
       resources :option_types, only: [:index, :show]
       resources :product_option_types, only: [:index, :show]
       resources :variants, only: [:show, :index]
+      resources :orders
+      resources :line_items
     end
   end
 
@@ -21,6 +23,8 @@ Rails.application.routes.draw do
         resources :option_types
         resources :product_option_types
         resources :variants
+        resources :orders
+        resources :line_items
       end
     end
   end

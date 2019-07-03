@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_26_203055) do
+ActiveRecord::Schema.define(version: 2019_07_02_235320) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
@@ -77,6 +77,17 @@ ActiveRecord::Schema.define(version: 2019_06_26_203055) do
     t.index ['descendant_id'], name: 'category_desc_idx'
   end
 
+  create_table 'line_items', force: :cascade do |t|
+    t.bigint 'order_id', null: false
+    t.bigint 'variant_id', null: false
+    t.integer 'quantity', default: 0, null: false
+    t.integer 'price_in_cents', default: 0, null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index ['order_id'], name: 'index_line_items_on_order_id'
+    t.index ['variant_id'], name: 'index_line_items_on_variant_id'
+  end
+
   create_table 'option_types', force: :cascade do |t|
     t.string 'name', null: false
     t.integer 'position', default: 0, null: false
@@ -101,6 +112,17 @@ ActiveRecord::Schema.define(version: 2019_06_26_203055) do
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
     t.index ['option_type_id'], name: 'index_option_values_on_option_type_id'
+  end
+
+  create_table 'orders', force: :cascade do |t|
+    t.integer 'user_id', null: false
+    t.integer 'total_in_cents', default: 0, null: false
+    t.datetime 'completed_at'
+    t.string 'payment_state', default: 'pending', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index ['completed_at'], name: 'index_orders_on_completed_at'
+    t.index ['user_id'], name: 'index_orders_on_user_id'
   end
 
   create_table 'product_categories', force: :cascade do |t|
@@ -152,6 +174,8 @@ ActiveRecord::Schema.define(version: 2019_06_26_203055) do
     t.index ['sku'], name: 'index_variants_on_sku', unique: true
   end
 
+  add_foreign_key 'line_items', 'orders'
+  add_foreign_key 'line_items', 'variants'
   add_foreign_key 'option_value_variants', 'option_values'
   add_foreign_key 'option_value_variants', 'variants'
   add_foreign_key 'option_values', 'option_types'
