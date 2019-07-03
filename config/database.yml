@@ -23,7 +23,8 @@ default: &default
 
 development:
   <<: *default
-  database: bookstore_development
+  database: bookstore
+  database_url: <%= ENV['DATABASE_URL'] %>
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -58,6 +59,7 @@ development:
 test:
   <<: *default
   database: bookstore_test
+  database_url: <%= ENV['DATABASE_URL'] %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -80,6 +82,5 @@ test:
 #
 production:
   <<: *default
-  database: bookstore_production
-  username: bookstore
-  password: <%= ENV['BOOKSTORE_DATABASE_PASSWORD'] %>
+  database: bookstore
+  database_url: <%= ENV['DATABASE_URL'] %>
