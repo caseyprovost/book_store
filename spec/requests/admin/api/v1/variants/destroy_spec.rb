@@ -11,7 +11,7 @@ RSpec.describe 'variants#destroy', type: :request do
     let!(:variant) { create(:variant) }
 
     it 'updates the resource' do
-      expect(VariantResource).to receive(:find).and_call_original
+      expect(Admin::VariantResource).to receive(:find).and_call_original
       expect {
         make_request
         expect(response.status).to eq(200), response.body

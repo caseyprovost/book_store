@@ -11,7 +11,7 @@ RSpec.describe 'line_items#destroy', type: :request do
     let!(:line_item) { create(:line_item) }
 
     it 'updates the resource' do
-      expect(LineItemResource).to receive(:find).and_call_original
+      expect(Admin::LineItemResource).to receive(:find).and_call_original
       expect {
         make_request
         expect(response.status).to eq(200), response.body

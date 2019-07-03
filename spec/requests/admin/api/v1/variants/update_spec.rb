@@ -24,7 +24,7 @@ RSpec.describe 'variants#update', type: :request do
 
     # Replace 'xit' with 'it' after adding attributes
     it 'updates the resource' do
-      expect(VariantResource).to receive(:find).and_call_original
+      expect(Admin::VariantResource).to receive(:find).and_call_original
       expect {
         make_request
         expect(response.status).to eq(200), response.body

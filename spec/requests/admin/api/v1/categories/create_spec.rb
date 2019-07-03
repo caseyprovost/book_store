@@ -18,7 +18,7 @@ RSpec.describe 'categories#create', type: :request do
     end
 
     it 'works' do
-      expect(CategoryResource).to receive(:build).and_call_original
+      expect(Admin::CategoryResource).to receive(:build).and_call_original
       expect {
         make_request
       }.to change { Category.count }.by(1)

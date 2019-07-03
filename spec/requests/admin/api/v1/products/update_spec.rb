@@ -32,7 +32,7 @@ describe 'updating' do
   end
 
   let(:instance) do
-    ProductResource.find(payload)
+    Admin::ProductResource.find(payload)
   end
 
   it 'works' do

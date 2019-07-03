@@ -61,7 +61,7 @@ RSpec.describe 'orders#create', type: :request do
     end
 
     it 'works' do
-      expect(OrderResource).to receive(:build).and_call_original
+      expect(Admin::OrderResource).to receive(:build).and_call_original
       expect {
         make_request
         expect(response.status).to eq(201), response.body

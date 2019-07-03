@@ -36,7 +36,7 @@ RSpec.describe 'line_items#create', type: :request do
     end
 
     it 'works' do
-      expect(LineItemResource).to receive(:build).and_call_original
+      expect(Admin::LineItemResource).to receive(:build).and_call_original
       expect {
         make_request
         expect(response.status).to eq(201), response.body

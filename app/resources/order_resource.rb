@@ -8,6 +8,6 @@ class OrderResource < ApplicationResource
   attribute :completed_at, :datetime
   attribute :payment_state, :string
 
-  primary_endpoint '/api/v1/orders', [:index, :show, :create, :update, :destroy]
-  secondary_endpoint '/admin/api/v1/orders', [:create, :update, :destroy]
+  #primary_endpoint '/api/v1/orders', [:index, :show, :create, :update, :destroy]
+  #secondary_endpoint '/admin/api/v1/orders', [:create, :update, :destroy]
 end

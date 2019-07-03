@@ -18,7 +18,7 @@ RSpec.describe 'products#create', type: :request do
     end
 
     it 'works' do
-      expect(ProductResource).to receive(:build).and_call_original
+      expect(Admin::ProductResource).to receive(:build).and_call_original
       expect {
         make_request
       }.to change { Product.count }.by(1)

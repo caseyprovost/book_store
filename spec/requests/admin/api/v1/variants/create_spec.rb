@@ -31,7 +31,7 @@ RSpec.describe 'variants#create', type: :request do
     end
 
     it 'works' do
-      expect(VariantResource).to receive(:build).and_call_original
+      expect(Admin::VariantResource).to receive(:build).and_call_original
       expect {
         make_request
         expect(response.status).to eq(201), response.body
