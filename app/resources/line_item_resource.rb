@@ -24,7 +24,4 @@ class LineItemResource < ApplicationResource
 
   attribute :quantity, :integer
   attribute :price, :float
-
-  #primary_endpoint '/api/v1/line_items', [:index, :show, :create, :update, :destroy]
-  #secondary_endpoint '/admin/api/v1/line_items', [:create, :update, :destroy]
 end

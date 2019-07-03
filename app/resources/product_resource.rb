@@ -6,7 +6,4 @@ class ProductResource < ApplicationResource
 
   attribute :name, :string
   attribute :description, :string
-
-  #primary_endpoint '/api/v1/products', [:index, :show]
-  #secondary_endpoint '/admin/api/v1/products', [:create, :update, :index, :show, :destroy]
 end

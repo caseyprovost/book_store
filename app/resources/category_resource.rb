@@ -9,7 +9,4 @@ class CategoryResource < ApplicationResource
 
   attribute :name, :string
   attribute :slug, :string
-
-  #primary_endpoint '/api/v1/categories', [:index, :show]
-  #secondary_endpoint '/admin/api/v1/categories', [:create, :update, :index, :show, :destroy]
 end
