@@ -5,6 +5,6 @@ FactoryBot.define do
     user_id { Faker::Number.number(4) }
     total { Faker::Number.decimal(2, 2) }
     completed_at { nil }
-    payment_state { 'pending' }
+    payment_state { "pending" }
   end
 end

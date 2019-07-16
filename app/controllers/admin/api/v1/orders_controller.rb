@@ -38,7 +38,7 @@ module Admin
           order = OrderResource.find(params)
 
           if order.destroy
-            render jsonapi: { meta: {} }, status: 200
+            render jsonapi: {meta: {}}, status: 200
           else
             render jsonapi_errors: order
           end

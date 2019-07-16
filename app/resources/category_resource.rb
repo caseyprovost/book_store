@@ -3,7 +3,7 @@
 class CategoryResource < ApplicationResource
   filter :product_id, :integer do |scope, value|
     eq do |scope, value|
-      scope.joins(:product_categories).where(product_categories: { product_id: value })
+      scope.joins(:product_categories).where(product_categories: {product_id: value})
     end
   end
 

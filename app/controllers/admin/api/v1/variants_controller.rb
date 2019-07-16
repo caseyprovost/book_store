@@ -38,7 +38,7 @@ module Admin
           variant = VariantResource.find(params)
 
           if variant.destroy
-            render jsonapi: { meta: {} }, status: 200
+            render jsonapi: {meta: {}}, status: 200
           else
             render jsonapi_errors: variant
           end

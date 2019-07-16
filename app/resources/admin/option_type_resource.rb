@@ -7,6 +7,6 @@ module Admin
     attribute :name, :string
     attribute :position, :integer
 
-    primary_endpoint '/option_types', [:create, :update, :index, :show, :destroy]
+    primary_endpoint "/option_types", [:create, :update, :index, :show, :destroy]
   end
 end

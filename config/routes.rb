@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   namespace :api do
-    api_version(module: 'V1', path: { value: 'v1' }) do
+    api_version(module: "V1", path: {value: "v1"}) do
       resources :products, only: [:index, :show]
       resources :categories, only: [:index, :show]
       resources :product_categories, only: [:index, :show]
@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     namespace :api do
-      api_version(module: 'V1', path: { value: 'v1' }) do
+      api_version(module: "V1", path: {value: "v1"}) do
         resources :products
         resources :categories
         resources :product_categories

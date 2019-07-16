@@ -3,19 +3,19 @@
 class LineItemResource < ApplicationResource
   filter :variant_id, :integer do |scope, value|
     eq do |scope, value|
-      scope.joins(:variant).where(variants: { id: value })
+      scope.joins(:variant).where(variants: {id: value})
     end
   end
 
   filter :product_id, :integer do |scope, value|
     eq do |scope, value|
-      scope.joins(:variant).where(variants: { product_id: value })
+      scope.joins(:variant).where(variants: {product_id: value})
     end
   end
 
   filter :order_id, :integer do |scope, value|
     eq do |scope, value|
-      scope.joins(:order).where(orders: { id: value })
+      scope.joins(:order).where(orders: {id: value})
     end
   end
 

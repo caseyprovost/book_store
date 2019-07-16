@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :property do
-    name { 'MyString' }
-    presentation { 'MyString' }
+    name { "MyString" }
+    presentation { "MyString" }
   end
 end

@@ -8,8 +8,8 @@ class Variant < ApplicationRecord
 
   acts_as_list scope: :product
 
-  monetize :price_in_cents, as: 'price',
-    numericality: {
-      greater_than_or_equal_to: 0
-    }
+  monetize :price_in_cents, as: "price",
+                            numericality: {
+                              greater_than_or_equal_to: 0,
+                            }
 end

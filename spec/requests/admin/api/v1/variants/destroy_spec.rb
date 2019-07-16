@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'variants#destroy', type: :request do
+RSpec.describe "variants#destroy", type: :request do
   subject(:make_request) do
     jsonapi_delete "/admin/api/v1/variants/#{variant.id}"
   end
 
-  describe 'basic destroy' do
+  describe "basic destroy" do
     let!(:variant) { create(:variant) }
 
-    it 'updates the resource' do
+    it "updates the resource" do
       expect(Admin::VariantResource).to receive(:find).and_call_original
       expect {
         make_request
@@ -18,7 +18,7 @@ RSpec.describe 'variants#destroy', type: :request do
       }.to change { Variant.count }.by(-1)
       expect { variant.reload }
         .to raise_error(ActiveRecord::RecordNotFound)
-      expect(json).to eq('meta' => {})
+      expect(json).to eq("meta" => {})
     end
   end
 end

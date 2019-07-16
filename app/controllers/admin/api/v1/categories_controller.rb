@@ -38,7 +38,7 @@ module Admin
           category = CategoryResource.find(params)
 
           if category.destroy
-            render jsonapi: { meta: {} }, status: 200
+            render jsonapi: {meta: {}}, status: 200
           else
             render jsonapi_errors: category
           end

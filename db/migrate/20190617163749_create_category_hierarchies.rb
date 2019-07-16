@@ -10,9 +10,9 @@ class CreateCategoryHierarchies < ActiveRecord::Migration[6.0]
 
     add_index :category_hierarchies, %i[ancestor_id descendant_id generations],
               unique: true,
-              name: 'category_anc_desc_idx'
+              name: "category_anc_desc_idx"
 
     add_index :category_hierarchies, [:descendant_id],
-              name: 'category_desc_idx'
+              name: "category_desc_idx"
   end
 end

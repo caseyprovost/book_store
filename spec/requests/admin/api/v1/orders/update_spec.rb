@@ -1,28 +1,28 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'orders#update', type: :request do
+RSpec.describe "orders#update", type: :request do
   subject(:make_request) do
     jsonapi_put "/admin/api/v1/orders/#{order.id}", payload
   end
 
-  describe 'basic update' do
+  describe "basic update" do
     let!(:order) { create(:order) }
 
     let(:payload) do
       {
         data: {
           id: order.id.to_s,
-          type: 'orders',
+          type: "orders",
           attributes: {
-            total: '10.00'
-          }
-        }
+            total: "10.00",
+          },
+        },
       }
     end
 
-    it 'updates the resource' do
+    it "updates the resource" do
       expect(Admin::OrderResource).to receive(:find).and_call_original
       expect {
         make_request

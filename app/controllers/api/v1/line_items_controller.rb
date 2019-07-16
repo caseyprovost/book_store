@@ -37,7 +37,7 @@ module Api
         line_item = LineItemResource.find(params)
 
         if line_item.destroy
-          render jsonapi: { meta: {} }, status: 200
+          render jsonapi: {meta: {}}, status: 200
         else
           render jsonapi_errors: line_item
         end

@@ -6,7 +6,7 @@ module Admin
 
     filter :product_id, :integer do |scope, value|
       eq do |scope, value|
-        scope.joins(:product).where(products: { id: value })
+        scope.joins(:product).where(products: {id: value})
       end
     end
 
@@ -17,6 +17,6 @@ module Admin
     attribute :sku, :string
     attribute :position, :integer
 
-    primary_endpoint '/variants', [:create, :update, :index, :show, :destroy]
+    primary_endpoint "/variants", [:create, :update, :index, :show, :destroy]
   end
 end

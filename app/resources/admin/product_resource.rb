@@ -10,6 +10,6 @@ module Admin
     attribute :name, :string
     attribute :description, :string
 
-    primary_endpoint '/products', [:create, :update, :index, :show, :destroy]
+    primary_endpoint "/products", [:create, :update, :index, :show, :destroy]
   end
 end

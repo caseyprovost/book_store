@@ -17,6 +17,6 @@ module Admin
     attribute :completed_at, :datetime
     attribute :payment_state, :string
 
-    primary_endpoint '/orders', [:create, :update, :index, :show, :destroy]
+    primary_endpoint "/orders", [:create, :update, :index, :show, :destroy]
   end
 end

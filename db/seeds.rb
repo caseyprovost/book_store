@@ -1,10 +1,11 @@
 # frozen_string_literal: true
-%w(
+
+%w[
   categories
   properties
   option_types
   books
-).each do |seed|
+].each do |seed|
   puts "Loading seed file: #{seed}"
   require_relative "seeds/#{seed}"
 end

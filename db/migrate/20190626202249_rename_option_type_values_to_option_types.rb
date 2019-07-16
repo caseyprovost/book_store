@@ -6,12 +6,12 @@ class RenameOptionTypeValuesToOptionTypes < ActiveRecord::Migration[6.0]
   end
 
   def down
-   create_table :option_type_values do |t|
+    create_table :option_type_values do |t|
       t.string :name, null: false
       t.integer :position, null: false, default: 0
       t.references :option_type, foreign_key: true, null: false
 
       t.timestamps
-   end
+    end
   end
 end

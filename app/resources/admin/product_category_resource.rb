@@ -7,6 +7,6 @@ module Admin
     belongs_to :product, resource: Admin::ProductResource
     belongs_to :category, resource: Admin::CategoryResource
 
-    primary_endpoint '/product_categories', [:create, :update, :index, :show, :destroy]
+    primary_endpoint "/product_categories", [:create, :update, :index, :show, :destroy]
   end
 end
