@@ -30,6 +30,22 @@ RSpec.describe ProductResource, type: :resource do
         expect(d.map(&:id)).to eq([product2.id])
       end
     end
+
+    context "by category_id" do
+      before do
+        product1.categories << category1
+        product2.categories << category2
+        params[:filter] = {category_id: {eq: category1.id}}
+      end
+
+      let(:category1) { create(:category) }
+      let(:category2) { create(:category) }
+
+      it "works" do
+        render
+        expect(d.map(&:id)).to eq([product1.id])
+      end
+    end
   end
 
   describe "sorting" do

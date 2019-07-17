@@ -6,7 +6,7 @@ module Admin
       class CategoriesController < BaseController
         def index
           categories = CategoryResource.all(params)
-          respond_with(categorys)
+          respond_with(categories)
         end
 
         def show
