@@ -51,3 +51,45 @@ Product.joins(product_properties: [:property]).where(properties: {name: "book-se
     FactoryBot.create(:option_value_variant, option_value: option_value, variant: ebook)
   end
 end
+
+100.times do
+  book = FactoryBot.create(:product, name: Faker::Book.title)
+  book.product_properties.create!(
+    property: Property.find_by(name: "language"),
+    value: "English"
+  )
+
+  book.product_properties.create!(
+    property: Property.find_by(name: "publisher"),
+    value: Faker::Book.publisher
+  )
+
+  book.product_properties.create!(
+    property: Property.find_by(name: "page-count"),
+    value: Faker::Number.number(3)
+  )
+
+  FactoryBot.create(:variant,
+    product: book,
+    name: "#{book.name} - Hard Cover",
+    price: Faker::Number.decimal(2),
+    position: 1)
+
+  FactoryBot.create(:variant,
+    product: book,
+    name: "#{book.name} - Paperback",
+    price: Faker::Number.decimal(2),
+    position: 2)
+
+  ebook = FactoryBot.create(:variant,
+    product: book,
+    name: "#{book.name} - ebook",
+    price: Faker::Number.decimal(2),
+    position: 3)
+
+  book_format = OptionType.find_by(name: "Book Format")
+
+  book_format.option_values.each do |option_value|
+    FactoryBot.create(:option_value_variant, option_value: option_value, variant: ebook)
+  end
+end
