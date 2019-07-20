@@ -15,6 +15,6 @@ class ProductPropertyResource < ApplicationResource
   belongs_to :property
 
   attribute :value, :string
-  attribute :product_id, :string
-  attribute :property_id, :string
+  attribute :product_id, :integer
+  attribute :property_id, :integer
 end
