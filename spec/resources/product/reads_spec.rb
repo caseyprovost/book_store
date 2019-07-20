@@ -109,5 +109,61 @@ RSpec.describe ProductResource, type: :resource do
           .to eq(["categories"])
       end
     end
+
+    describe "properties" do
+      let!(:product) { create(:product) }
+      let!(:property) { create(:property) }
+
+      let(:api_response) do
+        {
+          id: property.id,
+          type: "properties",
+          attributes: {
+            name: property.name,
+            presentation: property.presentation,
+          },
+        }
+      end
+
+      before do
+        create(:product_property, product: product, property: property, value: "testing")
+        params[:include] = "properties"
+      end
+
+      it "returns properties" do
+        render
+        sl = d[0].sideload(:properties)
+        expect(sl.map(&:id)).to eq([property.id])
+        expect(sl.map(&:jsonapi_type).uniq).to eq(["properties"])
+      end
+    end
+
+    describe "option_types" do
+      let!(:product) { create(:product) }
+      let!(:option_type) { create(:option_type) }
+
+      let(:api_response) do
+        {
+          id: option_type.id,
+          type: "option_types",
+          attributes: {
+            name: option_type.name,
+            position: option_type.position,
+          },
+        }
+      end
+
+      before do
+        product.option_types << option_type
+        params[:include] = "option_types"
+      end
+
+      it "returns option_types" do
+        render
+        sl = d[0].sideload(:option_types)
+        expect(sl.map(&:id)).to eq([option_type.id])
+        expect(sl.map(&:jsonapi_type).uniq).to eq(["option_types"])
+      end
+    end
   end
 end

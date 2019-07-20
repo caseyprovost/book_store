@@ -8,6 +8,8 @@ class ProductResource < ApplicationResource
   end
 
   many_to_many :categories
+  many_to_many :properties, link: false
+  many_to_many :option_types, link: false
   has_many :variants
 
   attribute :name, :string
