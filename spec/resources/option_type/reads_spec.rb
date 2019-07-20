@@ -32,7 +32,7 @@ RSpec.describe OptionTypeResource, type: :resource do
     context "by product_id" do
       before do
         create(:product_option_type, product: product1, option_type: option_type2)
-        params[:filter] = {product_id: {eq: option_type2.id}}
+        params[:filter] = {product_id: {eq: product1.id}}
       end
 
       let!(:product1) { create(:product) }
