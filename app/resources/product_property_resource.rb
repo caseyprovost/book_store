@@ -1,11 +1,11 @@
 class ProductPropertyResource < ApplicationResource
-  filter :product_id, :integer do |scope, value|
+  filter :product_id, :string do |scope, value|
     eq do |scope, value|
       scope.where(product_id: value)
     end
   end
 
-  filter :property_id, :integer do |scope, value|
+  filter :property_id, :string do |scope, value|
     eq do |scope, value|
       scope.where(property_id: value)
     end
