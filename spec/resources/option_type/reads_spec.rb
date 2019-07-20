@@ -28,6 +28,21 @@ RSpec.describe OptionTypeResource, type: :resource do
         expect(d.map(&:id)).to match_array([option_type2.id])
       end
     end
+
+    context "by product_id" do
+      before do
+        create(:product_option_type, product: product1, option_type: option_type2)
+        params[:filter] = {product_id: {eq: option_type2.id}}
+      end
+
+      let!(:product1) { create(:product) }
+      let!(:product2) { create(:product) }
+
+      it "works" do
+        render
+        expect(d.map(&:id)).to match_array([option_type2.id])
+      end
+    end
   end
 
   describe "sorting" do

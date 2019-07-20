@@ -26,6 +26,21 @@ RSpec.describe PropertyResource, type: :resource do
         expect(d.map(&:id)).to eq([property2.id])
       end
     end
+
+    context "by product_id" do
+      before do
+        create(:product_property, product: product1, property: property1)
+        params[:filter] = {product_id: {eq: product1.id}}
+      end
+
+      let!(:product1) { create(:product) }
+      let!(:product2) { create(:product) }
+
+      it "works" do
+        render
+        expect(d.map(&:id)).to eq([property1.id])
+      end
+    end
   end
 
   describe "sorting" do

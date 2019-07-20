@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :product_option_type do
-    product { nil }
-    option_type { nil }
-    position { 1 }
+    product
+    option_type
   end
 end

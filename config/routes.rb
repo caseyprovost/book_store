@@ -11,6 +11,8 @@ Rails.application.routes.draw do
       resources :variants, only: [:show, :index]
       resources :orders
       resources :line_items
+      resources :properties, only: [:index, :show]
+      resources :product_properties, only: [:index, :show]
     end
   end
 
