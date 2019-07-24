@@ -41,7 +41,7 @@ RSpec.describe ProductResource, type: :resource do
       ProductResource.find(payload)
     end
 
-    xit "works (add some attributes and enable this spec)" do
+    it "works (add some attributes and enable this spec)" do
       expect {
         expect(instance.update_attributes).to eq(true)
       }.to change { product.reload.updated_at }

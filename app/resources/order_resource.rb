@@ -13,4 +13,6 @@ class OrderResource < ApplicationResource
   attribute :total, :float
   attribute :completed_at, :datetime
   attribute :payment_state, :string
+  attribute :created_at, :datetime
+  attribute :updated_at, :datetime
 end

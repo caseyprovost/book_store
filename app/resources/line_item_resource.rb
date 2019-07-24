@@ -3,7 +3,7 @@
 class LineItemResource < ApplicationResource
   filter :variant_id, :integer do |scope, value|
     eq do |scope, value|
-      scope.joins(:variant).where(variants: {id: value})
+      scope.where(variant_id: value)
     end
   end
 
@@ -24,4 +24,6 @@ class LineItemResource < ApplicationResource
 
   attribute :quantity, :integer
   attribute :price, :float
+  attribute :created_at, :datetime
+  attribute :updated_at, :datetime
 end

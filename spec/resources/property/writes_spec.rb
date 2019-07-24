@@ -39,7 +39,7 @@ RSpec.describe PropertyResource, type: :resource do
       PropertyResource.find(payload)
     end
 
-    xit "works (add some attributes and enable this spec)" do
+    it "works (add some attributes and enable this spec)" do
       expect {
         expect(instance.update_attributes).to eq(true)
       }.to change { property.reload.updated_at }

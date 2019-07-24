@@ -5,6 +5,8 @@ class OptionType < ApplicationRecord
     has_many :option_values, -> { order(:position) }
   end
 
+  has_many :option_value_variants, through: :option_values
+
   has_many :product_option_types
   has_many :products, through: :product_option_types
 

@@ -41,7 +41,7 @@ RSpec.describe OptionTypeResource, type: :resource do
       OptionTypeResource.find(payload)
     end
 
-    xit "works (add some attributes and enable this spec)" do
+    it "works (add some attributes and enable this spec)" do
       expect {
         expect(instance.update_attributes).to eq(true)
       }.to change { option_type.reload.updated_at }

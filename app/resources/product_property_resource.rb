@@ -11,6 +11,12 @@ class ProductPropertyResource < ApplicationResource
     end
   end
 
+  filter :variant_id, :string do |scope, value|
+    eq do |scope, value|
+      scope.joins(product: [:variants]).where(variants: {id: value})
+    end
+  end
+
   belongs_to :product
   belongs_to :property
 

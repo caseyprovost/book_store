@@ -41,7 +41,7 @@ RSpec.describe OrderResource, type: :resource do
       OrderResource.find(payload)
     end
 
-    xit "works (add some attributes and enable this spec)" do
+    it "works (add some attributes and enable this spec)" do
       expect {
         expect(instance.update_attributes).to eq(true)
       }.to change { order.reload.updated_at }

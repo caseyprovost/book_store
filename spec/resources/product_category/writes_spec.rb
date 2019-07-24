@@ -58,11 +58,10 @@ RSpec.describe ProductCategoryResource, type: :resource do
       ProductCategoryResource.find(payload)
     end
 
-    xit "works (add some attributes and enable this spec)" do
+    it "works (add some attributes and enable this spec)" do
       expect {
         expect(instance.update_attributes).to eq(true)
-      }.to change { product_category.reload.updated_at }
-      # .and change { product_category.foo }.to('bar') <- example
+      }.to change(product_category.reload.updated_at)
     end
   end
 

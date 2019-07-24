@@ -22,13 +22,15 @@ RSpec.describe "line_items#update", type: :request do
       }
     end
 
-    # Replace 'xit' with 'it' after adding attributes
-    xit "updates the resource" do
+    # Replace 'it' with 'it' after adding attributes
+    it "updates the resource" do
       expect(LineItemResource).to receive(:find).and_call_original
+
       expect {
         make_request
-        expect(response.status).to eq(200), response.body
-      }.to change { line_item.reload.attributes }
+      }.to change(line_item.reload.attributes)
+
+      expect(response.status).to eq(200), response.body
     end
   end
 end

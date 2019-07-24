@@ -2,64 +2,64 @@
 
 require "rails_helper"
 
-RSpec.describe CategoryResource, type: :resource do
+RSpec.describe OptionValueVariantResource, type: :resource do
   describe "creating" do
     let(:payload) do
       {
         data: {
-          type: "categories",
-          attributes: attributes_for(:category),
+          type: "option_types",
+          attributes: attributes_for(:option_type),
         },
       }
     end
 
     let(:instance) do
-      CategoryResource.build(payload)
+      OptionTypeResource.build(payload)
     end
 
     it "works" do
       expect {
         expect(instance.save).to eq(true), instance.errors.full_messages.to_sentence
-      }.to change { Category.count }.by(1)
+      }.to change { OptionType.count }.by(1)
     end
   end
 
   describe "updating" do
-    let!(:category) { create(:category) }
+    let!(:option_type) { create(:option_type) }
 
     let(:payload) do
       {
         data: {
-          id: category.id.to_s,
-          type: "categories",
+          id: option_type.id.to_s,
+          type: "option_types",
           attributes: {}, # Todo!
         },
       }
     end
 
     let(:instance) do
-      CategoryResource.find(payload)
+      OptionTypeResource.find(payload)
     end
 
     it "works (add some attributes and enable this spec)" do
       expect {
         expect(instance.update_attributes).to eq(true)
-      }.to change { category.reload.updated_at }
-      # .and change { category.foo }.to('bar') <- example
+      }.to change { option_type.reload.updated_at }
+      # .and change { option_type.foo }.to('bar') <- example
     end
   end
 
   describe "destroying" do
-    let!(:category) { create(:category) }
+    let!(:option_type) { create(:option_type) }
 
     let(:instance) do
-      CategoryResource.find(id: category.id)
+      OptionTypeResource.find(id: option_type.id)
     end
 
     it "works" do
       expect {
         expect(instance.destroy).to eq(true)
-      }.to change { Category.count }.by(-1)
+      }.to change { OptionType.count }.by(-1)
     end
   end
 end

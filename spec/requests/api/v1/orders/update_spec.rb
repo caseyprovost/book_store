@@ -22,13 +22,13 @@ RSpec.describe "orders#update", type: :request do
       }
     end
 
-    # Replace 'xit' with 'it' after adding attributes
-    xit "updates the resource" do
+    # Replace 'it' with 'it' after adding attributes
+    it "updates the resource" do
       expect(OrderResource).to receive(:find).and_call_original
       expect {
         make_request
         expect(response.status).to eq(200), response.body
-      }.to change { order.reload.attributes }
+      }.to change(order.reload.attributes)
     end
   end
 end

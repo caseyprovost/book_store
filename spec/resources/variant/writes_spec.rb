@@ -51,7 +51,7 @@ RSpec.describe VariantResource, type: :resource do
       VariantResource.find(payload)
     end
 
-    xit "works (add some attributes and enable this spec)" do
+    it "works (add some attributes and enable this spec)" do
       expect {
         expect(instance.update_attributes).to eq(true)
       }.to change { variant.reload.updated_at }
