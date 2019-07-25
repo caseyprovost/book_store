@@ -299,7 +299,7 @@ GEM
     websocket-extensions (0.1.4)
     with_advisory_lock (4.0.0)
       activerecord (>= 4.2)
-    yard (0.9.19)
+    yard (0.9.20)
     zeitwerk (2.1.8)
 
 PLATFORMS
