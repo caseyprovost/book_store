@@ -13,7 +13,7 @@ class ProductOptionTypeResource < ApplicationResource
 
   filter :variant_id, :integer do |scope, value|
     eq do |scope, value|
-      scope.joins(product: [:variants]).where(variants: { id: value })
+      scope.joins(product: [:variants]).where(variants: {id: value})
     end
   end
 
