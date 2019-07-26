@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :option_value_variant do
-    option_value { nil }
-    variant { nil }
+    option_value
+    variant
   end
 end

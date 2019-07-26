@@ -16,8 +16,7 @@ class OptionValueResource < ApplicationResource
   end
 
   belongs_to :option_type
-  has_many :option_value_variants
-  has_many :variants
+  many_to_many :variants
 
   attribute :position, :integer
   attribute :created_at, :datetime

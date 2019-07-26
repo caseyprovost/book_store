@@ -13,7 +13,7 @@ RSpec.describe "option_types#index", type: :request do
     let!(:option_type1) { create(:option_type) }
     let!(:option_type2) { create(:option_type) }
 
-    it "works" do
+    it "returns the collection" do
       expect(OptionTypeResource).to receive(:all).and_call_original
       make_request
       expect(response.status).to eq(200), response.body

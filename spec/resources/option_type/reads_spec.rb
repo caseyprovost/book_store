@@ -6,7 +6,7 @@ RSpec.describe OptionTypeResource, type: :resource do
   describe "serialization" do
     let!(:option_type) { create(:option_type) }
 
-    it "works" do
+    it "serializes the data correctly" do
       render
       data = jsonapi_data[0]
       expect(data.id).to eq(option_type.id)
@@ -23,7 +23,7 @@ RSpec.describe OptionTypeResource, type: :resource do
         params[:filter] = {id: {eq: option_type2.id}}
       end
 
-      it "works" do
+      it "returns the expected resources" do
         render
         expect(d.map(&:id)).to match_array([option_type2.id])
       end
@@ -38,7 +38,7 @@ RSpec.describe OptionTypeResource, type: :resource do
       let!(:product1) { create(:product) }
       let!(:product2) { create(:product) }
 
-      it "works" do
+      it "returns the expected resources" do
         render
         expect(d.map(&:id)).to match_array([option_type2.id])
       end
@@ -55,7 +55,7 @@ RSpec.describe OptionTypeResource, type: :resource do
           params[:sort] = "id"
         end
 
-        it "works" do
+        it "returns the resources in the expected order" do
           render
           expect(d.map(&:id)).to eq([
             option_type1.id,
@@ -69,7 +69,7 @@ RSpec.describe OptionTypeResource, type: :resource do
           params[:sort] = "-id"
         end
 
-        it "works" do
+        it "returns the resources in the expected order" do
           render
           expect(d.map(&:id)).to match_array([
             option_type2.id,
@@ -81,6 +81,42 @@ RSpec.describe OptionTypeResource, type: :resource do
   end
 
   describe "sideloading" do
-    # ... your tests ...
+    it "can return the option_values" do
+      option_type = create(:option_type)
+      option_value = create(:option_value, option_type: option_type)
+      params[:include] = "option_values"
+      render
+
+      expect(included("option_values").map(&:id)).to eq([option_value.id])
+    end
+
+    it "can return the option_value_variants" do
+      option_type = create(:option_type)
+      option_value = create(:option_value, option_type: option_type)
+      option_value_variant = create(:option_value_variant, option_value: option_value)
+      params[:include] = "option_value_variants"
+      render
+
+      expect(included("option_value_variants").map(&:id)).to eq([option_value_variant.id])
+    end
+
+    it "can return the product_option_types" do
+      option_type = create(:option_type)
+      product_option_type = create(:product_option_type, option_type: option_type)
+      params[:include] = "product_option_types"
+      render
+
+      expect(included("product_option_types").map(&:id)).to eq([product_option_type.id])
+    end
+
+    it "can return the products" do
+      option_type = create(:option_type)
+      product = create(:product)
+      create(:product_option_type, product: product, option_type: option_type)
+      params[:include] = "products"
+      render
+
+      expect(included("products").map(&:id)).to eq([product.id])
+    end
   end
 end

@@ -13,14 +13,10 @@ RSpec.describe OptionTypeResource, type: :resource do
       }
     end
 
-    let(:instance) do
-      OptionTypeResource.build(payload)
-    end
+    let(:instance) { OptionTypeResource.build(payload) }
 
-    it "works" do
-      expect {
-        expect(instance.save).to eq(true), instance.errors.full_messages.to_sentence
-      }.to change { OptionType.count }.by(1)
+    it "creates the resources" do
+      expect { instance.save }.to change { OptionType.count }.by(1)
     end
   end
 
@@ -32,34 +28,28 @@ RSpec.describe OptionTypeResource, type: :resource do
         data: {
           id: option_type.id.to_s,
           type: "option_types",
-          attributes: {}, # Todo!
+          attributes: {
+            name: "Format"
+          },
         },
       }
     end
 
-    let(:instance) do
-      OptionTypeResource.find(payload)
-    end
+    let(:instance) { OptionTypeResource.find(payload) }
 
-    it "works (add some attributes and enable this spec)" do
-      expect {
-        expect(instance.update_attributes).to eq(true)
-      }.to change { option_type.reload.updated_at }
-      # .and change { option_type.foo }.to('bar') <- example
+    it "updates and renders the resource" do
+      expect(instance.update_attributes).to eq(true)
+      expect(option_type.reload.name).to eq("Format")
     end
   end
 
   describe "destroying" do
     let!(:option_type) { create(:option_type) }
+    let(:instance) { OptionTypeResource.find(id: option_type.id) }
 
-    let(:instance) do
-      OptionTypeResource.find(id: option_type.id)
-    end
-
-    it "works" do
-      expect {
-        expect(instance.destroy).to eq(true)
-      }.to change { OptionType.count }.by(-1)
+    it "destroys the resource" do
+      expect(instance.destroy).to eq(true)
+      expect { option_type.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end

@@ -12,7 +12,7 @@ RSpec.describe "product_categories#show", type: :request do
   describe "basic fetch" do
     let!(:product_category) { create(:product_category) }
 
-    it "works" do
+    it "returns the resource" do
       expect(ProductCategoryResource).to receive(:find).and_call_original
       make_request
       expect(response.status).to eq(200)

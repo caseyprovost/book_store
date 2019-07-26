@@ -30,14 +30,10 @@ RSpec.describe LineItemResource, type: :resource do
       }
     end
 
-    let(:instance) do
-      LineItemResource.build(payload)
-    end
+    let(:instance) { LineItemResource.build(payload) }
 
-    it "works" do
-      expect {
-        expect(instance.save).to eq(true), instance.errors.full_messages.to_sentence
-      }.to change { LineItem.count }.by(1)
+    it "creates the resource" do
+      expect { instance.save }.to change { LineItem.count }.by(1)
     end
   end
 
@@ -49,34 +45,26 @@ RSpec.describe LineItemResource, type: :resource do
         data: {
           id: line_item.id.to_s,
           type: "line_items",
-          attributes: {price: "11.00"},
+          attributes: {quantity: "3"},
         },
       }
     end
 
-    let(:instance) do
-      LineItemResource.find(payload)
-    end
+    let(:instance) { LineItemResource.find(payload) }
 
     it "works (add some attributes and enable this spec)" do
-      expect {
-        expect(instance.update_attributes).to eq(true)
-      }.to change { line_item.reload.updated_at }
-      # .and change { line_item.foo }.to('bar') <- example
+      expect(instance.update_attributes).to eq(true)
+      expect(line_item.reload.quantity).to eq(3)
     end
   end
 
   describe "destroying" do
     let!(:line_item) { create(:line_item) }
+    let(:instance) { LineItemResource.find(id: line_item.id) }
 
-    let(:instance) do
-      LineItemResource.find(id: line_item.id)
-    end
-
-    it "works" do
-      expect {
-        expect(instance.destroy).to eq(true)
-      }.to change { LineItem.count }.by(-1)
+    it "destroys the resource" do
+      expect(instance.destroy).to eq(true)
+      expect{ line_item.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end

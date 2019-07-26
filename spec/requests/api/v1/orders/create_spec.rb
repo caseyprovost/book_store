@@ -60,12 +60,10 @@ RSpec.describe "orders#create", type: :request do
       }
     end
 
-    it "works" do
+    it "creates and returns the resource" do
       expect(OrderResource).to receive(:build).and_call_original
-      expect {
-        make_request
-        expect(response.status).to eq(201), response.body
-      }.to change { Order.count }.by(1)
+      expect { make_request }.to change { Order.count }.by(1)
+      expect(response.status).to eq(201)
     end
   end
 end

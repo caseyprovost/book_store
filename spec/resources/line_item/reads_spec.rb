@@ -6,7 +6,7 @@ RSpec.describe LineItemResource, type: :resource do
   describe "serialization" do
     let!(:line_item) { create(:line_item) }
 
-    it "works" do
+    it "serializes the data correctly" do
       render
       data = jsonapi_data[0]
       expect(data.id).to eq(line_item.id)
@@ -23,7 +23,7 @@ RSpec.describe LineItemResource, type: :resource do
         params[:filter] = {id: {eq: line_item2.id}}
       end
 
-      it "works" do
+      it "returns the expected resources" do
         render
         expect(d.map(&:id)).to eq([line_item2.id])
       end
@@ -40,7 +40,7 @@ RSpec.describe LineItemResource, type: :resource do
           params[:sort] = "id"
         end
 
-        it "works" do
+        it "returns the resources in the expected order" do
           render
           expect(d.map(&:id)).to eq([
             line_item1.id,
@@ -54,7 +54,7 @@ RSpec.describe LineItemResource, type: :resource do
           params[:sort] = "-id"
         end
 
-        it "works" do
+        it "returns the resources in the expected order" do
           render
           expect(d.map(&:id)).to eq([
             line_item2.id,
@@ -66,6 +66,28 @@ RSpec.describe LineItemResource, type: :resource do
   end
 
   describe "sideloading" do
-    # ... your tests ...
+    it "can return the order" do
+      line_item = create(:line_item)
+      params[:include] = "order"
+      render
+
+      expect(included("orders").map(&:id)).to eq([line_item.order.id])
+    end
+
+    it "can return the variant" do
+      line_item = create(:line_item)
+      params[:include] = "variant"
+      render
+
+      expect(included("variants").map(&:id)).to eq([line_item.variant.id])
+    end
+
+    it "can return the product" do
+      line_item = create(:line_item)
+      params[:include] = "variant.product"
+      render
+
+      expect(included("products").map(&:id)).to eq([line_item.product.id])
+    end
   end
 end

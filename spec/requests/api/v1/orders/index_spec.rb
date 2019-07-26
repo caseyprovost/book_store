@@ -13,7 +13,7 @@ RSpec.describe "orders#index", type: :request do
     let!(:order1) { create(:order) }
     let!(:order2) { create(:order) }
 
-    it "works" do
+    it "returns the collection of resources" do
       expect(OrderResource).to receive(:all).and_call_original
       make_request
       expect(response.status).to eq(200), response.body

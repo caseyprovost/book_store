@@ -13,7 +13,7 @@ RSpec.describe "categories#index", type: :request do
     let!(:category1) { create(:category) }
     let!(:category2) { create(:category) }
 
-    it "works" do
+    it "returns the collection of resources" do
       expect(CategoryResource).to receive(:all).and_call_original
       make_request
       expect(response.status).to eq(200), response.body

@@ -21,6 +21,18 @@ class VariantResource < ApplicationResource
     end
   end
 
+  filter :option_type_id, :integer do |scope, value|
+    eq do |scope, value|
+      scope.joins(:option_value).where(option_values: {option_type_id: value})
+    end
+  end
+
+  filter :option_value_id, :integer do |scope, value|
+    eq do |scope, value|
+      scope.joins(:option_values).where(option_values: {id: value})
+    end
+  end
+
   belongs_to :product
   has_many :option_value_variants
   has_many :line_items

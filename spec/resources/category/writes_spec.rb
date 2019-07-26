@@ -13,14 +13,10 @@ RSpec.describe CategoryResource, type: :resource do
       }
     end
 
-    let(:instance) do
-      CategoryResource.build(payload)
-    end
+    let(:instance) { CategoryResource.build(payload) }
 
-    it "works" do
-      expect {
-        expect(instance.save).to eq(true), instance.errors.full_messages.to_sentence
-      }.to change { Category.count }.by(1)
+    it "creates the resource properly" do
+      expect { instance.save }.to change { Category.count }.by(1)
     end
   end
 
@@ -32,34 +28,28 @@ RSpec.describe CategoryResource, type: :resource do
         data: {
           id: category.id.to_s,
           type: "categories",
-          attributes: {}, # Todo!
+          attributes: {
+            name: "testing",
+          },
         },
       }
     end
 
-    let(:instance) do
-      CategoryResource.find(payload)
-    end
+    let(:instance) { CategoryResource.find(payload) }
 
-    it "works (add some attributes and enable this spec)" do
-      expect {
-        expect(instance.update_attributes).to eq(true)
-      }.to change { category.reload.updated_at }
-      # .and change { category.foo }.to('bar') <- example
+    it "updates the resource properly" do
+      expect(instance.update_attributes).to eq(true)
+      expect(category.reload.name).to eq("testing")
     end
   end
 
   describe "destroying" do
     let!(:category) { create(:category) }
+    let(:instance) { CategoryResource.find(id: category.id) }
 
-    let(:instance) do
-      CategoryResource.find(id: category.id)
-    end
-
-    it "works" do
-      expect {
-        expect(instance.destroy).to eq(true)
-      }.to change { Category.count }.by(-1)
+    it "deletes the resource" do
+      expect(instance.destroy).to eq(true)
+      expect { category.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end

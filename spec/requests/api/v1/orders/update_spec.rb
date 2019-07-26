@@ -16,19 +16,18 @@ RSpec.describe "orders#update", type: :request do
           id: order.id.to_s,
           type: "orders",
           attributes: {
-            # ... your attrs here
+            payment_state: "pending",
           },
         },
       }
     end
 
-    # Replace 'it' with 'it' after adding attributes
     it "updates the resource" do
       expect(OrderResource).to receive(:find).and_call_original
-      expect {
-        make_request
-        expect(response.status).to eq(200), response.body
-      }.to change(order.reload.attributes)
+      make_request
+
+      expect(response.status).to eq(200)
+      expect(order.reload.payment_state).to eq("pending")
     end
   end
 end

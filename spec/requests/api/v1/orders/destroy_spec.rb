@@ -10,14 +10,12 @@ RSpec.describe "orders#destroy", type: :request do
   describe "basic destroy" do
     let!(:order) { create(:order) }
 
-    it "updates the resource" do
+    it "destroys the resource" do
       expect(OrderResource).to receive(:find).and_call_original
-      expect {
-        make_request
-        expect(response.status).to eq(200), response.body
-      }.to change { Order.count }.by(-1)
-      expect { order.reload }
-        .to raise_error(ActiveRecord::RecordNotFound)
+      make_request
+
+      expect(response.status).to eq(200)
+      expect { order.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect(json).to eq("meta" => {})
     end
   end

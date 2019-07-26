@@ -6,6 +6,7 @@ class OptionType < ApplicationRecord
   end
 
   has_many :option_value_variants, through: :option_values
+  has_many :variants, through: :option_value_variants
 
   has_many :product_option_types
   has_many :products, through: :product_option_types

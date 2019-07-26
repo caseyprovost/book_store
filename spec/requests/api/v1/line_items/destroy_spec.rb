@@ -10,14 +10,11 @@ RSpec.describe "line_items#destroy", type: :request do
   describe "basic destroy" do
     let!(:line_item) { create(:line_item) }
 
-    it "updates the resource" do
+    it "destroys the resource" do
       expect(LineItemResource).to receive(:find).and_call_original
-      expect {
-        make_request
-        expect(response.status).to eq(200), response.body
-      }.to change { LineItem.count }.by(-1)
-      expect { line_item.reload }
-        .to raise_error(ActiveRecord::RecordNotFound)
+      make_request
+
+      expect { line_item.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect(json).to eq("meta" => {})
     end
   end

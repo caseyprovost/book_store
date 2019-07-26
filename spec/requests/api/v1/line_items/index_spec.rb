@@ -13,7 +13,7 @@ RSpec.describe "line_items#index", type: :request do
     let!(:line_item1) { create(:line_item) }
     let!(:line_item2) { create(:line_item) }
 
-    it "works" do
+    it "returns the collection" do
       expect(LineItemResource).to receive(:all).and_call_original
       make_request
       expect(response.status).to eq(200), response.body

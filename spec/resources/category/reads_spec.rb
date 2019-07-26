@@ -6,7 +6,7 @@ RSpec.describe CategoryResource, type: :resource do
   describe "serialization" do
     let!(:category) { create(:category) }
 
-    it "works" do
+    it "serializes the data correctly" do
       render
       data = jsonapi_data[0]
       expect(data.id).to eq(category.id)
@@ -23,7 +23,7 @@ RSpec.describe CategoryResource, type: :resource do
         params[:filter] = {id: {eq: category2.id}}
       end
 
-      it "works" do
+      it "returns the expected resources" do
         render
         expect(d.map(&:id)).to eq([category2.id])
       end
@@ -40,7 +40,7 @@ RSpec.describe CategoryResource, type: :resource do
           params[:sort] = "id"
         end
 
-        it "works" do
+        it "returns the resources in the proper order" do
           render
           expect(d.map(&:id)).to eq([
             category1.id,
@@ -54,7 +54,7 @@ RSpec.describe CategoryResource, type: :resource do
           params[:sort] = "-id"
         end
 
-        it "works" do
+        it "returns the resources in the proper order" do
           render
           expect(d.map(&:id)).to eq([
             category2.id,
@@ -66,6 +66,23 @@ RSpec.describe CategoryResource, type: :resource do
   end
 
   describe "sideloading" do
-    # ... your tests ...
+    it "can returns product categories" do
+      category = create(:category)
+      product_category = create(:product_category, category: category)
+      params[:include] = "product_categories"
+      render
+
+      expect(included("product_categories").map(&:id)).to eq([product_category.id])
+    end
+
+    it "can return products" do
+      category = create(:category)
+      product = create(:product)
+      category.products << product
+      params[:include] = "products"
+      render
+
+      expect(included("products").map(&:id)).to eq([product.id])
+    end
   end
 end

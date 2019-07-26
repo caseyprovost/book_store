@@ -12,7 +12,7 @@ RSpec.describe "orders#show", type: :request do
   describe "basic fetch" do
     let!(:order) { create(:order) }
 
-    it "works" do
+    it "returns the resource" do
       expect(OrderResource).to receive(:find).and_call_original
       make_request
       expect(response.status).to eq(200)

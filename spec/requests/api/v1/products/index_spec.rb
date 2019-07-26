@@ -13,7 +13,7 @@ RSpec.describe "products#index", type: :request do
     let!(:product1) { create(:product) }
     let!(:product2) { create(:product) }
 
-    it "works" do
+    it "returns the collection of resources" do
       expect(ProductResource).to receive(:all).and_call_original
       make_request
       expect(response.status).to eq(200), response.body

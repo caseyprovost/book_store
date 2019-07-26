@@ -12,7 +12,7 @@ RSpec.describe "line_items#show", type: :request do
   describe "basic fetch" do
     let!(:line_item) { create(:line_item) }
 
-    it "works" do
+    it "returns the resource" do
       expect(LineItemResource).to receive(:find).and_call_original
       make_request
       expect(response.status).to eq(200)

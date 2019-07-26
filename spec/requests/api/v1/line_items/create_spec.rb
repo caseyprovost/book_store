@@ -36,7 +36,7 @@ RSpec.describe "line_items#create", type: :request do
       }
     end
 
-    it "works" do
+    it "creates and returns the line item" do
       expect(LineItemResource).to receive(:build).and_call_original
       expect {
         make_request

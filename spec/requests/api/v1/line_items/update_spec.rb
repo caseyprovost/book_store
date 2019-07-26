@@ -16,20 +16,16 @@ RSpec.describe "line_items#update", type: :request do
           id: line_item.id.to_s,
           type: "line_items",
           attributes: {
-            # ... your attrs here
+            quantity: 12,
           },
         },
       }
     end
 
-    # Replace 'it' with 'it' after adding attributes
     it "updates the resource" do
       expect(LineItemResource).to receive(:find).and_call_original
-
-      expect {
-        make_request
-      }.to change(line_item.reload.attributes)
-
+      make_request
+      expect(line_item.reload.quantity).to eq(12)
       expect(response.status).to eq(200), response.body
     end
   end
