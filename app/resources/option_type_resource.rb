@@ -24,12 +24,16 @@ class OptionTypeResource < ApplicationResource
 
     assign_each do |option_type, option_value_variants|
       option_value_variants.select do |option_value_variant|
-        option_value_variant.option_value_id == option_type.id
+        option_value_variant.option_value.option_type_id == option_type.id
       end
     end
   end
 
   has_many :variants do
+    pre_load do |proxy, _|
+      proxy.scope.object.eager_load(:variants)
+    end
+
     assign_each do |option_type, variants|
       variants.select do |variant|
         option_type_ids = variant.option_values.map(&:option_type_id).flatten
@@ -40,6 +44,10 @@ class OptionTypeResource < ApplicationResource
 
   has_many :product_option_types
   has_many :products do
+    pre_load do |proxy, _|
+      proxy.scope.object.eager_load(:products)
+    end
+
     assign_each do |option_type, products|
       products.select do |product|
         option_type_ids = product.product_option_types.map(&:option_type_id).flatten

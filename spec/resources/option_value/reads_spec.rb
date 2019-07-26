@@ -31,7 +31,9 @@ RSpec.describe OptionValueResource, type: :resource do
 
     context "by product_id" do
       before do
-        create(:product_option_value, product: product1, option_value: option_value2)
+        option_type = create(:option_type)
+        create(:product_option_type, product: product1, option_type: option_type)
+        option_value2.update(option_type: option_type)
         params[:filter] = {product_id: {eq: product1.id}}
       end
 
@@ -81,42 +83,40 @@ RSpec.describe OptionValueResource, type: :resource do
   end
 
   describe "sideloading" do
-    # it "can return the option_values" do
-    #   option_value = create(:option_value)
-    #   option_value = create(:option_value, option_value: option_value)
-    #   params[:include] = "option_values"
-    #   render
+    it "can return the option_type" do
+      option_value = create(:option_value)
+      params[:include] = "option_type"
+      render
 
-    #   expect(included("option_values").map(&:id)).to eq([option_value.id])
-    # end
+      expect(included("option_types").map(&:id)).to eq([option_value.option_type.id])
+    end
 
-    # it "can return the option_value_variants" do
-    #   option_value = create(:option_value)
-    #   option_value = create(:option_value, option_value: option_value)
-    #   option_value_variant = create(:option_value_variant, option_value: option_value)
-    #   params[:include] = "option_value_variants"
-    #   render
+    it "can return the option_value_variants" do
+      option_value = create(:option_value)
+      option_value_variant = create(:option_value_variant, option_value: option_value)
+      params[:include] = "option_value_variants"
+      render
 
-    #   expect(included("option_value_variants").map(&:id)).to eq([option_value_variant.id])
-    # end
+      expect(included("option_value_variants").map(&:id)).to eq([option_value_variant.id])
+    end
 
-    # it "can return the product_option_values" do
-    #   option_value = create(:option_value)
-    #   product_option_value = create(:product_option_value, option_value: option_value)
-    #   params[:include] = "product_option_values"
-    #   render
+    it "can return the variants" do
+      option_value = create(:option_value)
+      variant = create(:variant)
+      option_value_variant = create(:option_value_variant, option_value: option_value, variant: variant)
+      params[:include] = "variants"
+      render
 
-    #   expect(included("product_option_values").map(&:id)).to eq([product_option_value.id])
-    # end
+      expect(included("variants").map(&:id)).to eq([variant.id])
+    end
 
-    # it "can return the products" do
-    #   option_value = create(:option_value)
-    #   product = create(:product)
-    #   create(:product_option_value, product: product, option_value: option_value)
-    #   params[:include] = "products"
-    #   render
+    it "can return the product_option_types" do
+      option_value = create(:option_value)
+      product_option_type = create(:product_option_type, option_type: option_value.option_type)
+      params[:include] = "product_option_types"
+      render
 
-    #   expect(included("products").map(&:id)).to eq([product.id])
-    # end
+      expect(included("product_option_types").map(&:id)).to eq([product_option_type.id])
+    end
   end
 end

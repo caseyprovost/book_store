@@ -4,62 +4,77 @@ require "rails_helper"
 
 RSpec.describe OptionValueVariantResource, type: :resource do
   describe "creating" do
+    let(:option_value) { create(:option_value) }
+    let(:variant) { create(:variant) }
+
     let(:payload) do
       {
         data: {
-          type: "option_types",
-          attributes: attributes_for(:option_type),
+          type: "option_value_variants",
+          attributes: {},
+          relationships: {
+            option_value: {
+              data: {
+                type: "option_values",
+                id: option_value.id.to_s,
+              },
+            },
+            variant: {
+              data: {
+                type: "variants",
+                id: variant.id.to_s,
+              },
+            },
+          },
         },
       }
     end
 
-    let(:instance) do
-      OptionTypeResource.build(payload)
-    end
+    let(:instance) { OptionValueVariantResource.build(payload) }
 
-    it "works" do
+    it "creates the resources" do
       expect {
         expect(instance.save).to eq(true), instance.errors.full_messages.to_sentence
-      }.to change { OptionType.count }.by(1)
+      }.to change { OptionValueVariant.count }.by(1)
     end
   end
 
   describe "updating" do
-    let!(:option_type) { create(:option_type) }
+    let!(:option_value_variant) { create(:option_value_variant) }
+    let(:new_option_value) { create(:option_value) }
 
     let(:payload) do
       {
         data: {
-          id: option_type.id.to_s,
-          type: "option_types",
-          attributes: {}, # Todo!
+          id: option_value_variant.id.to_s,
+          type: "option_value_variants",
+          relationships: {
+            option_value: {
+              data: {
+                type: "option_values",
+                id: new_option_value.id.to_s,
+              },
+            },
+          },
         },
       }
     end
 
-    let(:instance) do
-      OptionTypeResource.find(payload)
-    end
+    let(:instance) { OptionValueVariantResource.find(payload) }
 
     it "works (add some attributes and enable this spec)" do
-      expect {
-        expect(instance.update_attributes).to eq(true)
-      }.to change { option_type.reload.updated_at }
-      # .and change { option_type.foo }.to('bar') <- example
+      expect(instance.update_attributes).to eq(true)
+      expect(option_value_variant.reload.option_value).to eq(new_option_value)
     end
   end
 
   describe "destroying" do
-    let!(:option_type) { create(:option_type) }
+    let!(:option_value_variant) { create(:option_value_variant) }
+    let(:instance) { OptionValueVariantResource.find(id: option_value_variant.id) }
 
-    let(:instance) do
-      OptionTypeResource.find(id: option_type.id)
-    end
-
-    it "works" do
-      expect {
-        expect(instance.destroy).to eq(true)
-      }.to change { OptionType.count }.by(-1)
+    it "destroys the resource" do
+      expect(instance.destroy).to eq(true)
+      expect { option_value_variant.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end

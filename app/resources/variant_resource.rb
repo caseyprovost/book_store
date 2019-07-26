@@ -34,6 +34,7 @@ class VariantResource < ApplicationResource
   end
 
   belongs_to :product
+  has_many :option_values
   has_many :option_value_variants
   has_many :line_items
   has_many :orders

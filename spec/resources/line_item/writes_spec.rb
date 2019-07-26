@@ -64,7 +64,7 @@ RSpec.describe LineItemResource, type: :resource do
 
     it "destroys the resource" do
       expect(instance.destroy).to eq(true)
-      expect{ line_item.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { line_item.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end

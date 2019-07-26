@@ -11,6 +11,12 @@ class ProductOptionTypeResource < ApplicationResource
     end
   end
 
+  filter :option_value_id, :integer do |scope, value|
+    eq do |scope, value|
+      scope.joins(option_type: [:option_values]).where(option_values: {id: value})
+    end
+  end
+
   filter :variant_id, :integer do |scope, value|
     eq do |scope, value|
       scope.joins(product: [:variants]).where(variants: {id: value})
@@ -19,6 +25,13 @@ class ProductOptionTypeResource < ApplicationResource
 
   belongs_to :product
   belongs_to :option_type
+  has_many :option_values do
+    assign_each do |pot, option_values|
+      option_values.select do |option_value|
+        pot.option_type.id == option_value.option_type.id
+      end
+    end
+  end
 
   attribute :position, :integer
 end

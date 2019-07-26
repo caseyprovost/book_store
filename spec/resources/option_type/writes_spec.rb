@@ -29,7 +29,7 @@ RSpec.describe OptionTypeResource, type: :resource do
           id: option_type.id.to_s,
           type: "option_types",
           attributes: {
-            name: "Format"
+            name: "Format",
           },
         },
       }
