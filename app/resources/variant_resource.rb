@@ -62,4 +62,8 @@ class VariantResource < ApplicationResource
   attribute :position, :integer
   attribute :created_at, :datetime, readonly: true
   attribute :updated_at, :datetime, readonly: true
+
+  attribute :description, :string do
+    @object.product.description
+  end
 end
