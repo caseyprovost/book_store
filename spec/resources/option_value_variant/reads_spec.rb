@@ -28,6 +28,49 @@ RSpec.describe OptionValueVariantResource, type: :resource do
         expect(d.map(&:id)).to match_array([option_value_variant2.id])
       end
     end
+
+    context "by option_value_id" do
+      let!(:option_value) { create(:option_value) }
+
+      before do
+        option_value_variant1.update!(option_value: option_value)
+        params[:filter] = {option_value_id: {eq: option_value.id}}
+      end
+
+      it "returns the expected resources" do
+        render
+        expect(d.map(&:id)).to match_array([option_value_variant1.id])
+      end
+    end
+
+    context "by variant_id" do
+      let!(:variant) { create(:variant) }
+
+      before do
+        option_value_variant2.update!(variant: variant)
+        params[:filter] = {variant_id: {eq: variant.id}}
+      end
+
+      it "returns the expected resources" do
+        render
+        expect(d.map(&:id)).to match_array([option_value_variant2.id])
+      end
+    end
+
+    context "by option_type_id" do
+      let!(:option_type) { create(:option_type) }
+
+      before do
+        option_value = create(:option_value, option_type: option_type)
+        option_value_variant2.update!(option_value: option_value)
+        params[:filter] = {option_type_id: {eq: option_type.id}}
+      end
+
+      it "returns the expected resources" do
+        render
+        expect(d.map(&:id)).to match_array([option_value_variant2.id])
+      end
+    end
   end
 
   describe "sorting" do

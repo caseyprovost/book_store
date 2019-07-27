@@ -13,14 +13,10 @@ RSpec.describe ProductResource, type: :resource do
       }
     end
 
-    let(:instance) do
-      ProductResource.build(payload)
-    end
+    let(:instance) { ProductResource.build(payload) }
 
-    it "works" do
-      expect {
-        expect(instance.save).to eq(true), instance.errors.full_messages.to_sentence
-      }.to change { Product.count }.by(1)
+    it "serializes the resource correctly" do
+      expect { expect(instance.save) }.to change { Product.count }.by(1)
     end
   end
 
@@ -32,34 +28,28 @@ RSpec.describe ProductResource, type: :resource do
         data: {
           id: product.id.to_s,
           type: "products",
-          attributes: {}, # Todo!
+          attributes: {
+            name: "Thor Action Figure",
+          },
         },
       }
     end
 
-    let(:instance) do
-      ProductResource.find(payload)
-    end
+    let(:instance) { ProductResource.find(payload) }
 
-    it "works (add some attributes and enable this spec)" do
-      expect {
-        expect(instance.update_attributes).to eq(true)
-      }.to change { product.reload.updated_at }
-      # .and change { product.foo }.to('bar') <- example
+    it "updates the resources" do
+      expect(instance.update_attributes).to eq(true)
+      expect(product.reload).to have_attributes(name: "Thor Action Figure")
     end
   end
 
   describe "destroying" do
     let!(:product) { create(:product) }
+    let(:instance) { ProductResource.find(id: product.id) }
 
-    let(:instance) do
-      ProductResource.find(id: product.id)
-    end
-
-    it "works" do
-      expect {
-        expect(instance.destroy).to eq(true)
-      }.to change { Product.count }.by(-1)
+    it "destroys the resource" do
+      expect(instance.destroy).to eq(true)
+      expect { product.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end

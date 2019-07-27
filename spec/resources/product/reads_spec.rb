@@ -8,7 +8,7 @@ RSpec.describe ProductResource, type: :resource do
   describe "serialization" do
     let!(:product) { create(:product) }
 
-    it "works" do
+    it "serializes the data correctly" do
       render
       data = jsonapi_data[0]
       expect(data.id).to eq(product.id)
@@ -25,7 +25,7 @@ RSpec.describe ProductResource, type: :resource do
         params[:filter] = {id: {eq: product2.id}}
       end
 
-      it "works" do
+      it "returns the expected resources" do
         render
         expect(d.map(&:id)).to eq([product2.id])
       end
@@ -41,7 +41,21 @@ RSpec.describe ProductResource, type: :resource do
       let(:category1) { create(:category) }
       let(:category2) { create(:category) }
 
-      it "works" do
+      it "returns the expected resources" do
+        render
+        expect(d.map(&:id)).to eq([product1.id])
+      end
+    end
+
+    context "by option_type_id" do
+      before do
+        product1.option_types << option_type
+        params[:filter] = {option_type_id: {eq: option_type.id}}
+      end
+
+      let(:option_type) { create(:option_type) }
+
+      it "returns the expected resources" do
         render
         expect(d.map(&:id)).to eq([product1.id])
       end
@@ -58,7 +72,7 @@ RSpec.describe ProductResource, type: :resource do
           params[:sort] = "id"
         end
 
-        it "works" do
+        it "returns the resources in the expected order" do
           render
           expect(d.map(&:id)).to eq([
             product1.id,
@@ -72,7 +86,7 @@ RSpec.describe ProductResource, type: :resource do
           params[:sort] = "-id"
         end
 
-        it "works" do
+        it "returns the resources in the expected order" do
           render
           expect(d.map(&:id)).to eq([
             product2.id,
@@ -87,14 +101,6 @@ RSpec.describe ProductResource, type: :resource do
     describe "categories" do
       let!(:product) { create(:product) }
       let!(:category) { create(:category) }
-
-      let(:api_response) do
-        {
-          id: category.id,
-          type: "categories",
-          attributes: {name: category.name},
-        }
-      end
 
       before do
         product.categories << category
@@ -114,17 +120,6 @@ RSpec.describe ProductResource, type: :resource do
       let!(:product) { create(:product) }
       let!(:property) { create(:property) }
 
-      let(:api_response) do
-        {
-          id: property.id,
-          type: "properties",
-          attributes: {
-            name: property.name,
-            presentation: property.presentation,
-          },
-        }
-      end
-
       before do
         create(:product_property, product: product, property: property, value: "testing")
         params[:include] = "properties"
@@ -142,17 +137,6 @@ RSpec.describe ProductResource, type: :resource do
       let!(:product) { create(:product) }
       let!(:option_type) { create(:option_type) }
 
-      let(:api_response) do
-        {
-          id: option_type.id,
-          type: "option_types",
-          attributes: {
-            name: option_type.name,
-            position: option_type.position,
-          },
-        }
-      end
-
       before do
         product.option_types << option_type
         params[:include] = "option_types"
@@ -163,6 +147,26 @@ RSpec.describe ProductResource, type: :resource do
         sl = d[0].sideload(:option_types)
         expect(sl.map(&:id)).to eq([option_type.id])
         expect(sl.map(&:jsonapi_type).uniq).to eq(["option_types"])
+      end
+    end
+
+    describe "variants" do
+      let!(:variant1) { create(:variant, product: product) }
+      let!(:variant2) { create(:variant, product: product) }
+      let!(:product) { create(:product) }
+
+      before do
+        params[:include] = "variants"
+      end
+
+      it "returns variants" do
+        render
+        sl = d[0].sideload(:variants)
+        expect(sl.map(&:id)).to match_array([
+          variant1.id,
+          variant2.id,
+        ])
+        expect(sl.map(&:jsonapi_type).uniq).to eq(["variants"])
       end
     end
   end

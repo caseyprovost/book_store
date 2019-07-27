@@ -7,17 +7,15 @@ class OptionValueVariantResource < ApplicationResource
     end
   end
 
-  filter :variant_id, :integer do |scope, value|
+  filter :option_type_id, :integer do |scope, value|
     eq do |scope, value|
-      scope.where(variant_id: value)
+      scope.joins(:option_value).where(option_values: {option_type_id: value})
     end
   end
 
-  filter :option_type_id, :integer do |scope, value|
+  filter :variant_id, :integer do |scope, value|
     eq do |scope, value|
-      scope.joins(option_value: [:option_type]).where(
-        option_types: {id: value}
-      )
+      scope.where(variant_id: value)
     end
   end
 

@@ -28,6 +28,34 @@ RSpec.describe LineItemResource, type: :resource do
         expect(d.map(&:id)).to eq([line_item2.id])
       end
     end
+
+    context "by product_id" do
+      let!(:variant) { create(:variant) }
+
+      before do
+        line_item1.update!(variant: variant)
+        params[:filter] = {product_id: {eq: variant.product.id}}
+      end
+
+      it "returns the expected resources" do
+        render
+        expect(d.map(&:id)).to eq([line_item1.id])
+      end
+    end
+
+    context "by variant_id" do
+      let!(:variant) { create(:variant) }
+
+      before do
+        line_item2.update!(variant: variant)
+        params[:filter] = {variant_id: {eq: variant.id}}
+      end
+
+      it "returns the expected resources" do
+        render
+        expect(d.map(&:id)).to eq([line_item2.id])
+      end
+    end
   end
 
   describe "sorting" do

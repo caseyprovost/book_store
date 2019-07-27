@@ -22,6 +22,6 @@ class ProductCategoryResource < ApplicationResource
   belongs_to :product
   belongs_to :category
 
-  attribute :created_at, :datetime
-  attribute :updated_at, :datetime
+  attribute :created_at, :datetime, readonly: true
+  attribute :updated_at, :datetime, readonly: true
 end

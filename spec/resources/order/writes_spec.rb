@@ -4,62 +4,118 @@ require "rails_helper"
 
 RSpec.describe OrderResource, type: :resource do
   describe "creating" do
+    let!(:variant1) { create(:variant) }
+    let!(:variant2) { create(:variant) }
+    let(:line_item1_id) { SecureRandom.uuid }
+    let(:line_item2_id) { SecureRandom.uuid }
+
     let(:payload) do
       {
         data: {
           type: "orders",
           attributes: attributes_for(:order),
+          relationships: {
+            line_items: {
+              data: [
+                {
+                  "temp-id": line_item1_id,
+                  type: "line_items",
+                  method: "create",
+                },
+                {
+                  "temp-id": line_item2_id,
+                  type: "line_items",
+                  method: "create",
+                },
+              ],
+            },
+          },
         },
+        included: [
+          {
+            type: "line_items",
+            "temp-id": line_item1_id,
+            attributes: {quantity: 1},
+            relationships: {
+              variant: {
+                data: {
+                  id: variant1.id,
+                  type: "variants",
+                },
+              },
+            },
+          },
+          {
+            type: "line_items",
+            "temp-id": line_item2_id,
+            attributes: {quantity: 1},
+            relationships: {
+              variant: {
+                data: {
+                  id: variant2.id,
+                  type: "variants",
+                },
+              },
+            },
+          },
+        ],
       }
     end
 
-    let(:instance) do
-      OrderResource.build(payload)
-    end
+    let(:instance) { OrderResource.build(payload) }
 
-    it "works" do
-      expect {
-        expect(instance.save).to eq(true), instance.errors.full_messages.to_sentence
-      }.to change { Order.count }.by(1)
+    it "create the resource" do
+      expect { instance.save }.to change { Order.count }.by(1)
+      expect(Order.last.line_items.count).to eq(2)
     end
   end
 
   describe "updating" do
-    let!(:order) { create(:order) }
+    let!(:order) { create(:order, :with_line_items) }
 
     let(:payload) do
       {
         data: {
-          id: order.id.to_s,
           type: "orders",
-          attributes: {}, # Todo!
+          id: order.id,
+          attributes: {},
+          relationships: {
+            line_items: {
+              data: [
+                {
+                  id: order.line_items.first.id,
+                  type: "line_items",
+                  method: "update",
+                },
+              ],
+            },
+          },
         },
+        included: [
+          {
+            type: "line_items",
+            id: order.line_items.first.id,
+            attributes: {quantity: 2},
+          },
+        ],
       }
     end
 
-    let(:instance) do
-      OrderResource.find(payload)
-    end
+    let(:instance) { OrderResource.find(payload) }
 
-    it "works (add some attributes and enable this spec)" do
-      expect {
-        expect(instance.update_attributes).to eq(true)
-      }.to change { order.reload.updated_at }
-      # .and change { order.foo }.to('bar') <- example
+    it "updates the resource" do
+      expect(instance.update_attributes).to eq(true)
+      expect(order.reload.line_items.first.quantity).to eq(2)
     end
   end
 
   describe "destroying" do
     let!(:order) { create(:order) }
+    let(:instance) { OrderResource.find(id: order.id) }
 
-    let(:instance) do
-      OrderResource.find(id: order.id)
-    end
-
-    it "works" do
-      expect {
-        expect(instance.destroy).to eq(true)
-      }.to change { Order.count }.by(-1)
+    it "destroys the resource" do
+      expect(instance.destroy).to eq(true)
+      expect { order.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end
