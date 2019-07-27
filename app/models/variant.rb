@@ -2,7 +2,7 @@
 
 class Variant < ApplicationRecord
   belongs_to :product, touch: true, inverse_of: :variants
-  has_many :option_value_variants
+  has_many :option_value_variants, dependent: :destroy
   has_many :option_values, through: :option_value_variants
   has_many :option_types, through: :option_values
   has_many :line_items
