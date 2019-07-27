@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "line_items#destroy", type: :request do
   subject(:make_request) do
-    jsonapi_delete "/api/v1/line_items/#{line_item.id}"
+    jsonapi_delete "/api/v1/line_items/#{line_item.id}", {}
   end
 
   describe "basic destroy" do

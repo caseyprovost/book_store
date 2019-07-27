@@ -23,4 +23,6 @@ class ProductPropertyResource < ApplicationResource
   attribute :value, :string
   attribute :product_id, :integer
   attribute :property_id, :integer
+  attribute :created_at, :datetime, readonly: true
+  attribute :updated_at, :datetime, readonly: true
 end

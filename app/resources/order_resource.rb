@@ -13,6 +13,12 @@ class OrderResource < ApplicationResource
     end
   end
 
+  filter :variant_id, :integer do |scope, value|
+    eq do |scope, value|
+      scope.joins(:line_items).where(line_items: {variant_id: value})
+    end
+  end
+
   has_many :line_items
 
   has_many :variants do

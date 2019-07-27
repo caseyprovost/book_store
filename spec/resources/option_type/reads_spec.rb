@@ -46,7 +46,8 @@ RSpec.describe OptionTypeResource, type: :resource do
 
     context "by variant_id" do
       before do
-        create(:product_option_type, product: variant.product, option_type: option_type2)
+        option_value = create(:option_value, option_type: option_type2)
+        create(:option_value_variant, variant: variant, option_value: option_value)
         params[:filter] = {variant_id: {eq: variant.id}}
       end
 

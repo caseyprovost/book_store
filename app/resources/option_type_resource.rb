@@ -9,8 +9,8 @@ class OptionTypeResource < ApplicationResource
 
   filter :variant_id, :integer do |scope, value|
     eq do |scope, value|
-      scope.joins(product_option_types: {product: [:variants]}).where(
-        variants: {id: value}
+      scope.joins(option_values: [:option_value_variants]).where(
+        option_value_variants: {variant_id: value}
       )
     end
   end
@@ -58,6 +58,6 @@ class OptionTypeResource < ApplicationResource
 
   attribute :name, :string
   attribute :position, :integer
-  attribute :created_at, :datetime
-  attribute :updated_at, :datetime
+  attribute :created_at, :datetime, readonly: true
+  attribute :updated_at, :datetime, readonly: true
 end

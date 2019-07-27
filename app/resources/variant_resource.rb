@@ -23,7 +23,7 @@ class VariantResource < ApplicationResource
 
   filter :option_type_id, :integer do |scope, value|
     eq do |scope, value|
-      scope.joins(:option_value).where(option_values: {option_type_id: value})
+      scope.joins(option_value_variants: [:option_value]).where(option_values: {option_type_id: value})
     end
   end
 
@@ -34,13 +34,32 @@ class VariantResource < ApplicationResource
   end
 
   belongs_to :product
-  has_many :option_values
   has_many :option_value_variants
+
+  has_many :option_values do
+    assign_each do |variant, option_values|
+      option_values
+    end
+  end
+
   has_many :line_items
-  has_many :orders
+
+  has_many :orders do
+    assign_each do |variant, orders|
+      orders
+    end
+  end
+
+  has_many :option_types do
+    assign_each do |variant, option_types|
+      option_types
+    end
+  end
 
   attribute :name, :string
   attribute :price, :float
   attribute :sku, :string
   attribute :position, :integer
+  attribute :created_at, :datetime, readonly: true
+  attribute :updated_at, :datetime, readonly: true
 end

@@ -11,14 +11,10 @@ RSpec.describe PropertyResource, type: :resource do
       }
     end
 
-    let(:instance) do
-      PropertyResource.build(payload)
-    end
+    let(:instance) { PropertyResource.build(payload) }
 
-    it "works" do
-      expect {
-        expect(instance.save).to eq(true), instance.errors.full_messages.to_sentence
-      }.to change { Property.count }.by(1)
+    it "creats the resource" do
+      expect { instance.save }.to change { Property.count }.by(1)
     end
   end
 
@@ -30,34 +26,28 @@ RSpec.describe PropertyResource, type: :resource do
         data: {
           id: property.id.to_s,
           type: "properties",
-          attributes: {}, # Todo!
+          attributes: {
+            name: "testing",
+          },
         },
       }
     end
 
-    let(:instance) do
-      PropertyResource.find(payload)
-    end
+    let(:instance) { PropertyResource.find(payload) }
 
-    it "works (add some attributes and enable this spec)" do
-      expect {
-        expect(instance.update_attributes).to eq(true)
-      }.to change { property.reload.updated_at }
-      # .and change { property.foo }.to('bar') <- example
+    it "updates the resource" do
+      expect(instance.update_attributes).to eq(true)
+      expect(property.reload.name).to eq("testing")
     end
   end
 
   describe "destroying" do
     let!(:property) { create(:property) }
+    let(:instance) { PropertyResource.find(id: property.id) }
 
-    let(:instance) do
-      PropertyResource.find(id: property.id)
-    end
-
-    it "works" do
-      expect {
-        expect(instance.destroy).to eq(true)
-      }.to change { Property.count }.by(-1)
+    it "destroys the resource" do
+      expect(instance.destroy).to eq(true)
+      expect { property.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end

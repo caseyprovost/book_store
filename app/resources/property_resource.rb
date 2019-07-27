@@ -13,6 +13,19 @@ class PropertyResource < ApplicationResource
     end
   end
 
+  has_many :product_properties
+  has_many :products do
+    pre_load do |proxy, _|
+      proxy.scope.object.eager_load(:products)
+    end
+
+    assign_each do |property, products|
+      products
+    end
+  end
+
   attribute :name, :string
   attribute :presentation, :string
+  attribute :created_at, :datetime, readonly: true
+  attribute :updated_at, :datetime, readonly: true
 end

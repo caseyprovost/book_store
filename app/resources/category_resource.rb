@@ -27,7 +27,7 @@ class CategoryResource < ApplicationResource
   end
 
   attribute :name, :string
-  attribute :slug, :string
-  attribute :created_at, :datetime
-  attribute :updated_at, :datetime
+  attribute :slug, :string, readonly: true
+  attribute :created_at, :datetime, readonly: true
+  attribute :updated_at, :datetime, readonly: true
 end

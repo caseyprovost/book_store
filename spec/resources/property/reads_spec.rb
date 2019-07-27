@@ -4,7 +4,7 @@ RSpec.describe PropertyResource, type: :resource do
   describe "serialization" do
     let!(:property) { create(:property) }
 
-    it "works" do
+    it "renders the data properly" do
       render
       data = jsonapi_data[0]
       expect(data.id).to eq(property.id)
@@ -21,7 +21,7 @@ RSpec.describe PropertyResource, type: :resource do
         params[:filter] = {id: {eq: property2.id}}
       end
 
-      it "works" do
+      it "returns the expected resources" do
         render
         expect(d.map(&:id)).to eq([property2.id])
       end
@@ -29,16 +29,30 @@ RSpec.describe PropertyResource, type: :resource do
 
     context "by product_id" do
       before do
-        create(:product_property, product: product1, property: property1)
-        params[:filter] = {product_id: {eq: product1.id}}
+        create(:product_property, product: product, property: property1)
+        params[:filter] = {product_id: {eq: product.id}}
       end
 
-      let!(:product1) { create(:product) }
-      let!(:product2) { create(:product) }
+      let!(:product) { create(:product) }
 
-      it "works" do
+      it "returns the expected resources" do
         render
         expect(d.map(&:id)).to eq([property1.id])
+      end
+    end
+
+    context "by variant_id" do
+      before do
+        create(:product_property, product: product, property: property2)
+        params[:filter] = {variant_id: {eq: variant.id}}
+      end
+
+      let!(:product) { create(:product) }
+      let!(:variant) { create(:variant, product: product) }
+
+      it "returns the expected resources" do
+        render
+        expect(d.map(&:id)).to eq([property2.id])
       end
     end
   end
@@ -53,7 +67,7 @@ RSpec.describe PropertyResource, type: :resource do
           params[:sort] = "id"
         end
 
-        it "works" do
+        it "returns the resources in the expected order" do
           render
           expect(d.map(&:id)).to eq([
             property1.id,
@@ -67,7 +81,7 @@ RSpec.describe PropertyResource, type: :resource do
           params[:sort] = "-id"
         end
 
-        it "works" do
+        it "returns the resources in the expected order" do
           render
           expect(d.map(&:id)).to eq([
             property2.id,
@@ -79,6 +93,29 @@ RSpec.describe PropertyResource, type: :resource do
   end
 
   describe "sideloading" do
-    # ... your tests ...
+    context "product properties" do
+      let!(:product_property) { create(:product_property, property: property) }
+      let!(:property) { create(:property) }
+
+      it "returns products" do
+        params[:include] = "product_properties"
+        render
+
+        expect(included("product_properties").map(&:id)).to eq([product_property.id])
+      end
+    end
+
+    context "products" do
+      let!(:product_property) { create(:product_property, property: property, product: product) }
+      let!(:property) { create(:property) }
+      let!(:product) { create(:product) }
+
+      it "returns products" do
+        params[:include] = "products"
+        render
+
+        expect(included("products").map(&:id)).to eq([product.id])
+      end
+    end
   end
 end
