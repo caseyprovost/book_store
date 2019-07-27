@@ -109,10 +109,6 @@ RSpec.describe ProductCategoryResource, type: :resource do
 
   describe "sideloading" do
     describe "product" do
-      before do
-        params[:include] = "product"
-      end
-
       it "returns products" do
         product_category = create(:product_category)
         params[:include] = "product"
@@ -123,10 +119,6 @@ RSpec.describe ProductCategoryResource, type: :resource do
     end
 
     describe "category" do
-      before do
-        params[:include] = "category"
-      end
-
       it "returns categories" do
         product_category = create(:product_category)
         params[:include] = "category"

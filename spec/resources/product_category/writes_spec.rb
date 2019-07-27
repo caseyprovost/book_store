@@ -30,52 +30,50 @@ RSpec.describe ProductCategoryResource, type: :resource do
       }
     end
 
-    let(:instance) do
-      ProductCategoryResource.build(payload)
-    end
+    let(:instance) { ProductCategoryResource.build(payload) }
 
-    it "works" do
-      expect {
-        expect(instance.save).to eq(true), instance.errors.full_messages.to_sentence
-      }.to change { ProductCategory.count }.by(1)
+    it "creates the resource" do
+      expect { instance.save }.to change { ProductCategory.count }.by(1)
     end
   end
 
   describe "updating" do
     let!(:product_category) { create(:product_category) }
+    let!(:category) { create(:category) }
 
     let(:payload) do
       {
         data: {
           id: product_category.id.to_s,
           type: "product_categories",
-          attributes: {}, # Todo!
+          attributes: {},
+          relationships: {
+            category: {
+              data: {
+                id: category.id.to_s,
+                type: "categories",
+              },
+            },
+          },
         },
       }
     end
 
-    let(:instance) do
-      ProductCategoryResource.find(payload)
-    end
+    let(:instance) { ProductCategoryResource.find(payload) }
 
-    it "works (add some attributes and enable this spec)" do
-      expect {
-        expect(instance.update_attributes).to eq(true)
-      }.to change(product_category.reload.updated_at)
+    it "updates the resource" do
+      expect(instance.update_attributes).to eq(true)
+      expect(product_category.reload.category).to eq(category)
     end
   end
 
   describe "destroying" do
     let!(:product_category) { create(:product_category) }
+    let(:instance) { ProductCategoryResource.find(id: product_category.id) }
 
-    let(:instance) do
-      ProductCategoryResource.find(id: product_category.id)
-    end
-
-    it "works" do
-      expect {
-        expect(instance.destroy).to eq(true)
-      }.to change { ProductCategory.count }.by(-1)
+    it "destroys the resource" do
+      expect(instance.destroy).to eq(true)
+      expect { product_category.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end

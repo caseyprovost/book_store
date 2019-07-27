@@ -7,6 +7,14 @@ class OptionValueResource < ApplicationResource
     end
   end
 
+  filter :product_option_type_id, :integer do |scope, value|
+    eq do |scope, value|
+      scope.joins(option_type: [:product_option_types]).where(
+        product_option_types: {id: value}
+      )
+    end
+  end
+
   filter :product_id, :integer do |scope, value|
     eq do |scope, value|
       scope.joins(option_type: [:product_option_types]).where(

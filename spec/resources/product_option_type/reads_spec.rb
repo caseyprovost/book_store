@@ -6,7 +6,7 @@ RSpec.describe ProductOptionTypeResource, type: :resource do
   describe "serialization" do
     let!(:product_option_type) { create(:product_option_type) }
 
-    it "works" do
+    it "serializes the data properly" do
       render
       data = jsonapi_data[0]
       expect(data.id).to eq(product_option_type.id)
@@ -23,7 +23,7 @@ RSpec.describe ProductOptionTypeResource, type: :resource do
         params[:filter] = {id: {eq: product_option_type2.id}}
       end
 
-      it "works" do
+      it "returns the expected resources" do
         render
         expect(d.map(&:id)).to eq([product_option_type2.id])
       end
@@ -34,7 +34,7 @@ RSpec.describe ProductOptionTypeResource, type: :resource do
         params[:filter] = {product_id: {eq: product_option_type2.product.id}}
       end
 
-      it "works" do
+      it "returns the expected resources" do
         render
         expect(d.map(&:id)).to eq([product_option_type2.id])
       end
@@ -45,9 +45,37 @@ RSpec.describe ProductOptionTypeResource, type: :resource do
         params[:filter] = {option_type_id: {eq: product_option_type1.option_type.id}}
       end
 
-      it "works" do
+      it "returns the expected resources" do
         render
         expect(d.map(&:id)).to eq([product_option_type1.id])
+      end
+    end
+
+    context "by option_value_id" do
+      let!(:option_value) { create(:option_value) }
+
+      before do
+        product_option_type1.option_type.option_values << option_value
+        params[:filter] = {option_value_id: {eq: option_value.id}}
+      end
+
+      it "returns the expected resources" do
+        render
+        expect(d.map(&:id)).to eq([product_option_type1.id])
+      end
+    end
+
+    context "by variant_id" do
+      let!(:variant) { create(:variant) }
+
+      before do
+        product_option_type2.product.variants << variant
+        params[:filter] = {variant_id: {eq: variant.id}}
+      end
+
+      it "returns the expected resources" do
+        render
+        expect(d.map(&:id)).to eq([product_option_type2.id])
       end
     end
   end
@@ -62,7 +90,7 @@ RSpec.describe ProductOptionTypeResource, type: :resource do
           params[:sort] = "id"
         end
 
-        it "works" do
+        it "returns the resources in the expected order" do
           render
           expect(d.map(&:id)).to eq([
             product_option_type1.id,
@@ -76,7 +104,7 @@ RSpec.describe ProductOptionTypeResource, type: :resource do
           params[:sort] = "-id"
         end
 
-        it "works" do
+        it "returns the resources in the expected order" do
           render
           expect(d.map(&:id)).to eq([
             product_option_type2.id,
@@ -88,6 +116,39 @@ RSpec.describe ProductOptionTypeResource, type: :resource do
   end
 
   describe "sideloading" do
-    # ... your tests ...
+    context "product" do
+      let!(:product_option_type) { create(:product_option_type) }
+
+      it "returns products" do
+        params[:include] = "product"
+        render
+
+        expect(included("products").map(&:id)).to eq([product_option_type.product.id])
+      end
+    end
+
+    context "option_type" do
+      let!(:product_option_type) { create(:product_option_type) }
+
+      it "returns option_types" do
+        params[:include] = "option_type"
+        render
+
+        expect(included("option_types").map(&:id)).to eq([product_option_type.option_type.id])
+      end
+    end
+
+    context "option_values" do
+      let!(:product_option_type) { create(:product_option_type) }
+      let!(:option_value) { create(:option_value) }
+
+      it "returns option_types" do
+        product_option_type.option_type.option_values << option_value
+        params[:include] = "option_values"
+        render
+
+        expect(included("option_values").map(&:id)).to eq([option_value.id])
+      end
+    end
   end
 end
