@@ -22,6 +22,8 @@ class OptionValueVariantResource < ApplicationResource
   belongs_to :option_value
   belongs_to :variant
 
+  attribute :option_value_id, :integer, readonly: true
+  attribute :variant_id, :integer, readonly: true
   attribute :created_at, :datetime, readonly: true
   attribute :updated_at, :datetime, readonly: true
 end

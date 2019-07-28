@@ -24,6 +24,8 @@ class LineItemResource < ApplicationResource
 
   attribute :quantity, :integer
   attribute :price, :float
+  attribute :order_id, :integer, readonly: true
+  attribute :variant_id, :integer, readonly: true
   attribute :created_at, :datetime, readonly: true
   attribute :updated_at, :datetime, readonly: true
 end

@@ -53,6 +53,7 @@ class OptionValueResource < ApplicationResource
 
   attribute :position, :integer
   attribute :name, :string
+  attribute :option_type_id, :integer, readonly: true
   attribute :created_at, :datetime, readonly: true
   attribute :updated_at, :datetime, readonly: true
 end
