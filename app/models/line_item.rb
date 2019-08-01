@@ -4,7 +4,7 @@ class LineItem < ApplicationRecord
   belongs_to :order
   belongs_to :variant
 
-  validates :quantity, numericality: {only_integer: true}
+  # validates :quantity, numericality: {only_integer: true, greater_than: 0}
 
   monetize :price_in_cents, as: "price",
                             numericality: {

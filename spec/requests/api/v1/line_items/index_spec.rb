@@ -9,7 +9,7 @@ RSpec.describe "line_items#index", type: :request do
     jsonapi_get "/api/v1/line_items", params: params
   end
 
-  describe "basic fetch" do
+  context "success" do
     let!(:line_item1) { create(:line_item) }
     let!(:line_item2) { create(:line_item) }
 

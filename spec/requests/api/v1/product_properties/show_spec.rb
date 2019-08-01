@@ -2,22 +2,22 @@
 
 require "rails_helper"
 
-RSpec.describe "categories#show", type: :request do
+RSpec.describe "product_properties#show", type: :request do
   let(:params) { {} }
 
   subject(:make_request) do
-    jsonapi_get "/api/v1/categories/#{category.id}", params: params
+    jsonapi_get "/api/v1/product_properties/#{product_property.id}", params: params
   end
 
-  describe "basic fetch" do
-    let!(:category) { create(:category) }
+  context "success" do
+    let!(:product_property) { create(:product_property) }
 
     it "returns the resource" do
-      expect(CategoryResource).to receive(:find).and_call_original
+      expect(ProductPropertyResource).to receive(:find).and_call_original
       make_request
       expect(response.status).to eq(200)
-      expect(d.jsonapi_type).to eq("categories")
-      expect(d.id).to eq(category.id)
+      expect(d.jsonapi_type).to eq("product_properties")
+      expect(d.id).to eq(product_property.id)
     end
   end
 end

@@ -9,7 +9,7 @@ RSpec.describe "option_types#index", type: :request do
     jsonapi_get "/api/v1/option_types", params: params
   end
 
-  describe "basic fetch" do
+  context "success" do
     let!(:option_type1) { create(:option_type) }
     let!(:option_type2) { create(:option_type) }
 

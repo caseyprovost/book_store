@@ -5,6 +5,6 @@ FactoryBot.define do
     association :order
     association :variant
     quantity { 1 }
-    price { Faker::Number.decimal(3, 2) }
+    price { Faker::Number.decimal(l_digits: 3, r_digits: 2) }
   end
 end

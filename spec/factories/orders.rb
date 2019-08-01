@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :order do
-    user_id { Faker::Number.number(4) }
-    total { Faker::Number.decimal(2, 2) }
+    user_id { Faker::Number.number(digits: 4) }
+    total { Faker::Number.decimal(l_digits: 2, r_digits: 2) }
     completed_at { nil }
     payment_state { "pending" }
 

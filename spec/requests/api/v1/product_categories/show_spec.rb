@@ -9,7 +9,7 @@ RSpec.describe "product_categories#show", type: :request do
     jsonapi_get "/api/v1/product_categories/#{product_category.id}", params: params
   end
 
-  describe "basic fetch" do
+  context "success" do
     let!(:product_category) { create(:product_category) }
 
     it "returns the resource" do

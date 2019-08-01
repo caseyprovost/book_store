@@ -9,10 +9,10 @@ RSpec.describe "option_types#show", type: :request do
     jsonapi_get "/api/v1/option_types/#{option_type.id}", params: params
   end
 
-  describe "basic fetch" do
+  context "success" do
     let!(:option_type) { create(:option_type) }
 
-    it "works" do
+    it "returns the resource" do
       expect(OptionTypeResource).to receive(:find).and_call_original
       make_request
       expect(response.status).to eq(200)
